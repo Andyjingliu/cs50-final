@@ -5,7 +5,7 @@ app = Flask(__name__)
 ARTICLES = [
     {
         "title": "First Article",
-        "Summary": "This is a short summary of the first article.",
+        "summary": "This is a short summary of the first article.",
         "Slug": "first-article",
     },
     {
