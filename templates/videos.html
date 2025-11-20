@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+
+{% block title %}Videos{% endblock %}
+
+{% block content %}
+  <h1>Videos</h1>
+
+  {% if videos %}
+    <ul>
+      {% for video in videos %}
+        <li style="margin-bottom: 12px;">
+          <strong>{{ video.title }}</strong><br>
+          <a href="{{ video.url }}" target="_blank">Watch on YouTube</a>
+        </li>
+      {% endfor %}
+    </ul>
+  {% else %}
+    <p>No videos yet.</p>
+  {% endif %}
+{% endblock %}
