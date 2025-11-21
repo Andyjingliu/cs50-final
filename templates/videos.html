@@ -1,20 +1,35 @@
 {% extends "base.html" %}
 
-{% block title %}Videos{% endblock %}
+{% block title %}Videos · CS50 Final{% endblock %}
 
 {% block content %}
   <h1>Videos</h1>
 
-  {% if videos %}
-    <ul>
-      {% for video in videos %}
-        <li style="margin-bottom: 12px;">
-          <strong>{{ video.title }}</strong><br>
-          <a href="{{ video.url }}" target="_blank">Watch on YouTube</a>
-        </li>
-      {% endfor %}
-    </ul>
+  {% for video in videos %}
+    <article class="video-card">
+      <h2>{{ video["title"] }}</h2>
+
+      {% if video["description"] %}
+        <p class="video-description">{{ video["description"] }}</p>
+      {% endif %}
+
+      <div class="video-wrapper">
+        <iframe
+          src="https://www.youtube.com/embed/{{ video['youtube_id'] }}"
+          title="{{ video['title'] }}"
+          frameborder="0"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+          allowfullscreen
+        ></iframe>
+      </div>
+
+      <p class="video-link">
+        <a href="https://www.youtube.com/watch?v={{ video['youtube_id'] }}" target="_blank">
+          Watch on YouTube
+        </a>
+      </p>
+    </article>
   {% else %}
-    <p>No videos yet.</p>
-  {% endif %}
+    <p>No videos yet. Check back soon.</p>
+  {% endfor %}
 {% endblock %}
