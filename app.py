@@ -1,30 +1,14 @@
+import sqlite3
 from flask import Flask, render_template
 
 app = Flask(__name__)
 
-ARTICLES = [
-    {
-        "title": "First Article",
-        "summary": "This is a short summary of the first article.",
-        "Slug": "first-article",
-    },
-    {
-        "title": "Second Article",
-        "summary": "Another example article summary.",
-        "slug": "second-article",
-    },
-]
+DATABASE = "database.db"
 
-VIDEOS = [
-    {
-        "title": "Sample Video 1",
-        "url": "https://www.youtube.com/watch?v=dQw4w9WgXcQ"
-    },
-    {
-        "title": "Sample Video 2",
-        "url": "https://www.youtube.com/watch?v=o-YBDTqX_ZU",
-    },
-]
+def get_db_connection():
+    conn = sqlite3.connect(DATABASE)
+    conn.row_factory = sqlite3.Row
+    return conn
 
 @app.route("/")
 def index():
@@ -32,11 +16,21 @@ def index():
 
 @app.route("/articles")
 def articles():
-    return render_template("articles.html", articles=ARTICLES)
+    conn = get_db_connection()
+    articles = conn.execute(
+        "SELECT id, title, summary, slug, image_path FROM articles ORDER BY created_at DESC"
+    ).fetchall()
+    conn.close()
+    return render_template("articles.html", articles=articles)
 
 @app.route("/videos")
 def videos():
-    return render_template("videos.html", videos=VIDEOS)
+    conn = get_db_connection()
+    videos = conn.execute(
+        "SELECT id, title, youtube_id, description FROM videos ORDER BY id DESC"
+    ).fetchall()
+    conn.close()
+    return render_template("videos.html", videos=videos)
 
 if __name__ == "__main__":
     app.run(debug=True)
