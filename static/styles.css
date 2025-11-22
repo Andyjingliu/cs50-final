@@ -1,5 +1,4 @@
 /* ===== Global layout & typography ===== */
-
 body {
   font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
   margin: 0;
@@ -128,12 +127,247 @@ footer {
   font-size: 0.85rem;
 }
 
-/* ===== Article list page ===== */
+/* ===== Homepage ===== */
+/* --- Homepage Layout --- */
+.home-container {
+  max-width: 1040px;
+  margin: 0 auto;
+  padding: 32px 24px 40px;
+}
 
+/* --- Public-facing link overrides (Homepage) --- */
+.home-container a {
+  color: #111827;       /* dark neutral */
+  text-decoration: none;
+}
+
+.home-container a:hover {
+  text-decoration: underline;
+}
+
+/* --- Hero section --- */
+.hero {
+  text-align: center;
+  margin-bottom: 2.6rem;
+}
+
+.hero h1 {
+  font-size: 2.2rem;
+  line-height: 1.25;
+  margin: 0 0 0.5rem;
+}
+
+.hero p {
+  max-width: 640px;
+  margin: 0 auto 1.2rem;
+  font-size: 1rem;
+  line-height: 1.7;
+  color: #4b5563;
+}
+
+.hero-img {
+  display: block;
+  width: 100%;
+  max-width: 420px;
+  height: auto;
+  margin: 0.75rem auto 0;
+  border-radius: 14px;
+  box-shadow: 0 12px 30px rgba(15, 23, 42, 0.15);
+}
+
+/* --- About section --- */
+.about {
+  margin-bottom: 2.7rem;
+}
+
+.about h2 {
+  font-size: 1.4rem;
+  margin: 0 0 0.75rem;
+}
+
+.about p {
+  max-width: 760px;
+  margin: 0;
+  font-size: 0.98rem;
+  line-height: 1.8;
+  color: #111827;
+}
+
+/* --- Latest Articles section --- */
+.latest {
+  margin-bottom: 3rem;
+}
+
+.latest h2 {
+  font-size: 1.4rem;
+  margin: 0 0 1rem;
+}
+
+/* grid of article cards */
+.article-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 1.25rem;
+}
+
+/* single article card */
+.article-card {
+  background: #ffffff;
+  border-radius: 14px;
+  padding: 1.2rem 1.25rem 1.4rem;
+  border: 1px solid #e5e7eb;
+  box-shadow: 0 10px 25px rgba(15, 23, 42, 0.04);
+  overflow: hidden; /* keep large images inside card */
+}
+
+.article-card h3 {
+  margin: 0 0 0.4rem;
+  font-size: 1.05rem;
+}
+
+.article-card h3 a {
+  text-decoration: none;
+}
+
+.article-card h3 a:hover {
+  text-decoration: underline;
+}
+
+.article-card p {
+  margin: 0.1rem 0 0.6rem;
+  font-size: 0.95rem;
+  line-height: 1.6;
+  color: #4b5563;
+}
+
+/* thumbnail image inside card */
+.article-card .thumb {
+  width: 100%;
+  display: block;
+  margin-top: 0.5rem;
+  border-radius: 10px;
+  max-height: 180px;
+  object-fit: cover;
+}
+
+/* "View all articles" link */
+.see-more {
+  margin-top: 1.2rem;
+  text-align: right;
+}
+
+.see-more a {
+  font-size: 0.95rem;
+  font-weight: 500;
+  color: #2563eb;
+  text-decoration: none;
+}
+
+.see-more a:hover {
+  text-decoration: underline;
+}
+
+/* --- Latest Videos section on homepage --- */
+.home-section {
+  margin-top: 2.75rem;
+}
+
+.home-section h2 {
+  font-size: 1.4rem;
+  margin: 0 0 1rem;
+}
+
+/* small video cards just for homepage */
+.home-video-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 1.25rem;
+}
+
+.home-video-card {
+  background: #ffffff;
+  border-radius: 14px;
+  padding: 1rem 1.1rem 1.2rem;
+  border: 1px solid #e5e7eb;
+  box-shadow: 0 10px 25px rgba(15, 23, 42, 0.04);
+}
+
+.home-video-card h3 {
+  margin: 0 0 0.35rem;
+  font-size: 1.0rem;
+}
+
+.home-video-card p {
+  margin: 0 0 0.6rem;
+  font-size: 0.9rem;
+  line-height: 1.6;
+  color: #4b5563;
+}
+
+/* 16:9 embed inside homepage card */
+.home-video-embed {
+  position: relative;
+  padding-bottom: 56.25%; /* 16:9 */
+  height: 0;
+  overflow: hidden;
+  border-radius: 10px;
+  margin-top: 0.3rem;
+}
+
+.home-video-embed iframe {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border: 0;
+}
+
+.home-video-more {
+  margin-top: 0.9rem;
+  text-align: right;
+  font-size: 0.95rem;
+}
+
+.home-video-more a {
+  color: #2563eb;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.home-video-more a:hover {
+  text-decoration: underline;
+}
+
+/* --- Homepage responsive tweaks --- */
+@media (max-width: 768px) {
+  .home-container {
+    padding: 24px 16px 32px;
+  }
+
+  .hero h1 {
+    font-size: 1.8rem;
+  }
+
+  .article-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ===== Article list page ===== */
 .article-list {
   list-style: none;
   padding: 0;
   margin: 0;
+}
+
+/* --- Public-facing link overrides (Article List) --- */
+.article-list a {
+  color: #111827;
+  text-decoration: none;
+}
+
+.article-list a:hover {
+  text-decoration: underline;
 }
 
 .article-item {
@@ -182,64 +416,7 @@ footer {
   color: #111827;
 }
 
-/* ===== Videos page ===== */
-
-.video-card {
-  background: #ffffff;
-  border-radius: 18px;
-  padding: 1.5rem 1.5rem 1.75rem;
-  margin: 0 0 1.75rem;
-  box-shadow: 0 16px 40px rgba(15, 23, 42, 0.10);
-  border: 1px solid #e5e7eb;
-}
-
-.video-card h2 {
-  margin: 0 0 0.5rem;
-  font-size: 1.3rem;
-}
-
-.video-description {
-  margin: 0 0 0.85rem;
-  font-size: 0.95rem;
-  color: #4b5563;
-}
-
-/* 16:9 responsive embed */
-
-.video-wrapper {
-  position: relative;
-  padding-bottom: 56.25%; /* 16:9 */
-  height: 0;
-  overflow: hidden;
-  border-radius: 12px;
-  box-shadow: 0 10px 28px rgba(15, 23, 42, 0.18);
-}
-
-.video-wrapper iframe {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  border: 0;
-}
-
-.video-link {
-  margin-top: 0.7rem;
-  font-size: 0.9rem;
-}
-
-.video-link a {
-  color: #2563eb;
-  text-decoration: none;
-  font-weight: 500;
-}
-
-.video-link a:hover {
-  text-decoration: underline;
-}
-
 /* ===== Article detail page ===== */
-
 .article-detail {
   max-width: 760px;
   margin: 2.5rem auto 4rem;
@@ -360,7 +537,6 @@ footer {
 }
 
 /* =====  Article form (admin new/edit) ===== */
-
 .article-form {
   max-width: 720px;
   margin: 2rem auto 3rem;
@@ -399,189 +575,38 @@ footer {
   font-size: 0.9rem;
 }
 
-/* ===== Homepage ===== */
-/* --- Homepage Layout --- */
-
-.home-container {
-  max-width: 1040px;
-  margin: 0 auto;
-  padding: 32px 24px 40px;
+/* ===== Videos page ===== */
+.video-card {
+  background: #ffffff;
+  border-radius: 18px;
+  padding: 1.5rem 1.5rem 1.75rem;
+  margin: 0 0 1.75rem;
+  box-shadow: 0 16px 40px rgba(15, 23, 42, 0.10);
+  border: 1px solid #e5e7eb;
 }
 
-/* --- Hero section --- */
-
-.hero {
-  text-align: center;
-  margin-bottom: 2.6rem;
-}
-
-.hero h1 {
-  font-size: 2.2rem;
-  line-height: 1.25;
+.video-card h2 {
   margin: 0 0 0.5rem;
+  font-size: 1.3rem;
 }
 
-.hero p {
-  max-width: 640px;
-  margin: 0 auto 1.2rem;
-  font-size: 1rem;
-  line-height: 1.7;
-  color: #4b5563;
-}
-
-.hero-img {
-  display: block;
-  width: 100%;
-  max-width: 420px;
-  height: auto;
-  margin: 0.75rem auto 0;
-  border-radius: 14px;
-  box-shadow: 0 12px 30px rgba(15, 23, 42, 0.15);
-}
-
-/* --- About section --- */
-
-.about {
-  margin-bottom: 2.7rem;
-}
-
-.about h2 {
-  font-size: 1.4rem;
-  margin: 0 0 0.75rem;
-}
-
-.about p {
-  max-width: 760px;
-  margin: 0;
-  font-size: 0.98rem;
-  line-height: 1.8;
-  color: #111827;
-}
-
-/* --- Latest Articles section --- */
-
-.latest {
-  margin-bottom: 3rem;
-}
-
-.latest h2 {
-  font-size: 1.4rem;
-  margin: 0 0 1rem;
-}
-
-/* grid of article cards */
-.article-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-  gap: 1.25rem;
-}
-
-/* single article card */
-.article-card {
-  background: #ffffff;
-  border-radius: 14px;
-  padding: 1.2rem 1.25rem 1.4rem;
-  border: 1px solid #e5e7eb;
-  box-shadow: 0 10px 25px rgba(15, 23, 42, 0.04);
-  overflow: hidden; /* keep large images inside card */
-}
-
-.article-card h3 {
-  margin: 0 0 0.4rem;
-  font-size: 1.05rem;
-}
-
-.article-card h3 a {
-  text-decoration: none;
-}
-
-.article-card h3 a:hover {
-  text-decoration: underline;
-}
-
-.article-card p {
-  margin: 0.1rem 0 0.6rem;
+.video-description {
+  margin: 0 0 0.85rem;
   font-size: 0.95rem;
-  line-height: 1.6;
   color: #4b5563;
 }
 
-/* thumbnail image inside card */
-.article-card .thumb {
-  width: 100%;
-  display: block;
-  margin-top: 0.5rem;
-  border-radius: 10px;
-  max-height: 180px;
-  object-fit: cover;
-}
-
-/* "View all articles" link */
-.see-more {
-  margin-top: 1.2rem;
-  text-align: right;
-}
-
-.see-more a {
-  font-size: 0.95rem;
-  font-weight: 500;
-  color: #2563eb;
-  text-decoration: none;
-}
-
-.see-more a:hover {
-  text-decoration: underline;
-}
-
-/* --- Latest Videos section on homepage --- */
-
-.home-section {
-  margin-top: 2.75rem;
-}
-
-.home-section h2 {
-  font-size: 1.4rem;
-  margin: 0 0 1rem;
-}
-
-/* small video cards just for homepage */
-.home-video-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-  gap: 1.25rem;
-}
-
-.home-video-card {
-  background: #ffffff;
-  border-radius: 14px;
-  padding: 1rem 1.1rem 1.2rem;
-  border: 1px solid #e5e7eb;
-  box-shadow: 0 10px 25px rgba(15, 23, 42, 0.04);
-}
-
-.home-video-card h3 {
-  margin: 0 0 0.35rem;
-  font-size: 1.0rem;
-}
-
-.home-video-card p {
-  margin: 0 0 0.6rem;
-  font-size: 0.9rem;
-  line-height: 1.6;
-  color: #4b5563;
-}
-
-/* 16:9 embed inside homepage card */
-.home-video-embed {
+/* 16:9 responsive embed */
+.video-wrapper {
   position: relative;
   padding-bottom: 56.25%; /* 16:9 */
   height: 0;
   overflow: hidden;
-  border-radius: 10px;
-  margin-top: 0.3rem;
+  border-radius: 12px;
+  box-shadow: 0 10px 28px rgba(15, 23, 42, 0.18);
 }
 
-.home-video-embed iframe {
+.video-wrapper iframe {
   position: absolute;
   inset: 0;
   width: 100%;
@@ -589,40 +614,22 @@ footer {
   border: 0;
 }
 
-.home-video-more {
-  margin-top: 0.9rem;
-  text-align: right;
-  font-size: 0.95rem;
+.video-link {
+  margin-top: 0.7rem;
+  font-size: 0.9rem;
 }
 
-.home-video-more a {
+.video-link a {
   color: #2563eb;
   text-decoration: none;
   font-weight: 500;
 }
 
-.home-video-more a:hover {
+.video-link a:hover {
   text-decoration: underline;
 }
 
-/* --- Homepage responsive tweaks --- */
-
-@media (max-width: 768px) {
-  .home-container {
-    padding: 24px 16px 32px;
-  }
-
-  .hero h1 {
-    font-size: 1.8rem;
-  }
-
-  .article-grid {
-    grid-template-columns: 1fr;
-  }
-}
-
 /* ===== 404 error page ===== */
-
 .error-page {
   max-width: 600px;
   margin: 4rem auto;
