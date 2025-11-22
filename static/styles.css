@@ -118,6 +118,14 @@ a:hover {
   background: #1d4ed8;
 }
 
+/* Small section headings inside admin forms */
+.form-section-heading {
+  margin-top: 1.5rem;
+  margin-bottom: 0.4rem;
+  font-size: 1.0rem;
+  font-weight: 600;
+}
+
 /* Footer */
 footer {
   text-align: center;

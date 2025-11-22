@@ -120,9 +120,6 @@ def videos():
     conn.close()
     return render_template("videos.html", videos=videos)
 
-from flask import render_template, request, redirect, url_for
-# ^ you already have these, just reminding
-
 @app.route("/admin/homepage", methods=["GET", "POST"])
 def admin_homepage():
     conn = get_db_connection()
@@ -139,7 +136,7 @@ def admin_homepage():
             error = "Hero title, hero subtitle, about title, and about body are required."
 
         if error:
-            home_content = conn.execute(
+            homepage = conn.execute(
                 """
                 SELECT hero_title,
                        hero_subtitle,
@@ -153,11 +150,11 @@ def admin_homepage():
             conn.close()
             return render_template(
                 "admin_homepage.html",
-                home_content=home_content,
+                homepage=homepage,
                 error=error,
             )
 
-        # Update the single homepage_content row (id = 1)
+        # Update the single homepage row
         conn.execute(
             """
             UPDATE homepage_content
@@ -174,8 +171,8 @@ def admin_homepage():
         conn.close()
         return redirect(url_for("homepage"))
 
-    # GET: show current values in the form
-    home_content = conn.execute(
+    # GET request — load existing data
+    homepage = conn.execute(
         """
         SELECT hero_title,
                hero_subtitle,
@@ -190,7 +187,7 @@ def admin_homepage():
 
     return render_template(
         "admin_homepage.html",
-        home_content=home_content,
+        homepage=homepage,
         error=None,
     )
 
