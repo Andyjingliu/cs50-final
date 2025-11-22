@@ -62,13 +62,61 @@ p {
   margin: 0 0 0.85rem;
 }
 
-/* Links */
+/* Base link (for everywhere) */
 a {
-  color: #4c1d95; /* purple */
+  color: #2563eb;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+/* UI Action Links (breadcrumbs, small actions) */
+.link-quiet {
+  color: #2563eb;
+  font-size: 0.95rem;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.link-quiet:hover {
+  text-decoration: underline;
+}
+
+/* CTA Arrow Links ("View all →") */
+.link-arrow {
+  color: #2563eb;
+  font-weight: 600;
+  font-size: 0.95rem;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.link-arrow:hover {
+  text-decoration: underline;
 }
 
 a:hover {
   text-decoration: underline;
+}
+
+/* Global buttons */
+.btn {
+  display: inline-block;
+  padding: 0.65rem 1.35rem;
+  background: #2563eb;
+  color: white;
+  font-size: 0.95rem;
+  font-weight: 600;
+  border: none;
+  border-radius: 999px;
+  cursor: pointer;
+  text-decoration: none;
+  transition: background 0.15s ease;
+}
+
+.btn:hover {
+  background: #1d4ed8;
 }
 
 /* Footer */
@@ -338,23 +386,6 @@ footer {
 
 .article-form textarea {
   resize: vertical;
-}
-
-.article-form button[type="submit"] {
-  margin-top: 1rem;
-  padding: 0.7rem 1.4rem;
-  border-radius: 999px;
-  border: none;
-  background: #2563eb;
-  color: white;
-  font-weight: 600;
-  font-size: 0.95rem;
-  cursor: pointer;
-  align-self: flex-start;
-}
-
-.article-form button[type="submit"]:hover {
-  background: #1d4ed8;
 }
 
 /* Error message above form */
