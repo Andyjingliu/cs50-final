@@ -324,15 +324,52 @@ footer {
     padding: 40px 20px;
 }
 
+/* Hero section on homepage */
 .hero {
-    text-align: center;
-    margin-bottom: 50px;
+  text-align: center;
+  margin: 32px auto 40px;     /* less vertical space */
+  padding: 24px 24px 28px;
 }
 
+.hero h1 {
+  font-size: 2.1rem;          /* smaller than before */
+  line-height: 1.25;
+  margin: 0 0 0.5rem;
+}
+
+.hero p {
+  font-size: 1rem;
+  line-height: 1.6;
+  margin: 0 auto;
+  max-width: 620px;           /* keep text in a nice column */
+  color: #4b5563;             /* softer gray */
+}
+
+/* Smaller hero image */
 .hero-img {
-    width: 100%;
-    border-radius: 12px;
-    margin-top: 20px;
+  display: block;
+  margin: 20px auto 0;
+  max-width: 420px;           /* key: limits size */
+  width: 100%;
+  height: auto;
+  border-radius: 14px;
+  box-shadow: 0 12px 30px rgba(15, 23, 42, 0.15);
+}
+
+/* Slightly tighter on mobile */
+@media (max-width: 768px) {
+  .hero {
+    margin: 24px auto 32px;
+    padding: 20px 16px 24px;
+  }
+
+  .hero h1 {
+    font-size: 1.7rem;
+  }
+
+  .hero-img {
+    max-width: 320px;
+  }
 }
 
 .about {
@@ -468,4 +505,43 @@ footer {
   display: block;
   margin-left: auto;
   margin-right: auto;
+}
+
+/* 404 error page */
+
+.error-page {
+  max-width: 600px;
+  margin: 4rem auto;
+  text-align: center;
+  padding: 2.5rem 2rem;
+  background: #ffffff;
+  border-radius: 18px;
+  box-shadow: 0 18px 45px rgba(15, 23, 42, 0.08);
+}
+
+.error-page h1 {
+  font-size: 3rem;
+  margin-bottom: 0.25rem;
+}
+
+.error-page h2 {
+  font-size: 1.4rem;
+  margin-bottom: 0.75rem;
+}
+
+.error-page p {
+  font-size: 0.98rem;
+  color: #4b5563;
+  margin-bottom: 1.5rem;
+}
+
+.error-home-link {
+  font-size: 0.95rem;
+  color: #2563eb;
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.error-home-link:hover {
+  text-decoration: underline;
 }
