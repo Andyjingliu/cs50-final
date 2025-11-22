@@ -4,21 +4,20 @@
 <div class="home-container">
 
     <!-- HERO SECTION -->
-   <section class="hero">
+    <section class="hero">
     <h1>Andy Jing Liu · Insights & Analysis</h1>
     <p>Your bilingual commentary on China, Canada, immigration, and global trends.</p>
 
     <img src="{{ url_for('static', filename='images/IMG_1761.JPG') }}"
          alt="Hero Image"
          class="hero-img">
-   </section>
+    </section>
 
     <!-- ABOUT SECTION -->
     <section class="about">
         <h2>About This Site</h2>
         <p>
-            This website is where I share my long-form thoughts, commentary, and analysis.
-            All articles are written in Markdown and published through my custom CMS built for this project.
+            This website is where I share my long-form thoughts, commentary, and analysis. All articles are written in Markdown and published through my custom CMS built for this project.
         </p>
     </section>
 
@@ -44,31 +43,30 @@
         </div>
     </section>
 
+    <!-- LATEST VIDEOS -->
+    <section class="home-section">
+        <h2>Latest Videos</h2>
+
+        <div class="home-video-grid">
+            {% for video in videos %}
+              <article class="home-video-card">
+                  <h3>{{ video["title"] }}</h3>
+
+                    <div class="video-wrapper">
+                      <iframe
+                        src="https://www.youtube.com/embed/{{ video['youtube_id'] }}"
+                        title="{{ video['title'] }}"
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                        allowfullscreen>
+                      </iframe>
+                    </div>
+              </article>
+            {% endfor %}
+        </div>
+
+        <p class="home-video-more">
+            <a href="{{ url_for('videos') }}" class="link-arrow">View all videos →</a>
+        </p>
+    </section>
 </div>
-
-<section class="home-section">
-    <h2>Latest Videos</h2>
-
-    <div class="home-video-grid">
-        {% for video in videos %}
-        <article class="home-video-card">
-          <h3>{{ video["title"] }}</h3>
-
-          <div class="video-wrapper">
-            <iframe
-              src="https://www.youtube.com/embed/{{ video['youtube_id'] }}"
-              title="{{ video['title'] }}"
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-              allowfullscreen>
-            </iframe>
-          </div>
-        </article>
-        {% endfor %}
-    </div>
-
-    <p class="home-video-more">
-        <a href="{{ url_for('videos') }}" class="link-arrow">View all videos →</a>
-    </p>
-</section>
-
 {% endblock %}

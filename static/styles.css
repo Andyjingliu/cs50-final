@@ -147,6 +147,7 @@ footer {
 }
 
 /* ===== Homepage ===== */
+
 /* --- Homepage Layout --- */
 .home-container {
   max-width: 1040px;
@@ -156,7 +157,7 @@ footer {
 
 /* --- Public-facing link overrides (Homepage) --- */
 .home-container a {
-  color: #111827;       /* dark neutral */
+  color: #111827;        /* dark neutral */
   text-decoration: none;
 }
 
@@ -287,7 +288,6 @@ footer {
 }
 
 /* --- Latest Videos section on homepage --- */
-
 .home-section {
   margin-top: 2.75rem;
 }
@@ -307,14 +307,15 @@ footer {
 .home-video-card {
   background: #ffffff;
   border-radius: 14px;
-  padding: 1rem 1.1rem 1.2rem;
+  padding: 1.2rem 1.25rem 1.4rem;  /* match article-card */
   border: 1px solid #e5e7eb;
   box-shadow: 0 10px 25px rgba(15, 23, 42, 0.04);
+  box-sizing: border-box;
 }
 
 .home-video-card h3 {
   margin: 0 0 0.35rem;
-  font-size: 1.0rem;
+  font-size: 1rem;
 }
 
 .home-video-card p {
@@ -324,7 +325,7 @@ footer {
   color: #4b5563;
 }
 
-/* homepage uses shared .video-wrapper with lighter shadow */
+/* homepage uses shared .video-wrapper with slightly softer shadow */
 .home-video-card .video-wrapper {
   margin-top: 0.45rem;
   border-radius: 10px;
