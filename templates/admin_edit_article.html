@@ -3,57 +3,47 @@
 {% block title %}Edit Article · Admin{% endblock %}
 
 {% block content %}
-<div class="admin-page">
-  <h1>Edit Article</h1>
+<div class="page">
+    <h1>Edit Article</h1>
 
-  <form method="post" class="admin-form">
     {% if error %}
-      <p class="form-error">{{ error }}</p>
+        <p class="error-message">{{ error }}</p>
     {% endif %}
 
-    <div class="form-row">
-      <label for="title">Title</label>
-      <input
-        id="title"
-        name="title"
-        type="text"
-        value="{{ form.title }}"
-        required
-      >
-    </div>
+    <form method="post" class="article-form">
+        <label for="title">Title</label>
+        <input
+            id="title"
+            name="title"
+            type="text"
+            value="{{ form.title }}"
+            required
+        >
 
-    <div class="form-row">
-      <label for="summary">Summary (optional)</label>
-      <textarea
-        id="summary"
-        name="summary"
-        rows="3"
-      >{{ form.summary }}</textarea>
-    </div>
+        <label for="summary">Summary (optional)</label>
+        <textarea
+            id="summary"
+            name="summary"
+            rows="4"
+        >{{ form.summary }}</textarea>
 
-    <div class="form-row">
-      <label for="body">Body (Markdown)</label>
-      <textarea
-        id="body"
-        name="body"
-        rows="12"
-        required
-      >{{ form.body }}</textarea>
-    </div>
+        <label for="body">Body (Markdown)</label>
+        <textarea
+            id="body"
+            name="body"
+            rows="12"
+            required
+        >{{ form.body }}</textarea>
 
-    <div class="form-row">
-      <label for="image_path">Hero image path (e.g. images/IMG_1234.JPG)</label>
-      <input
-        id="image_path"
-        name="image_path"
-        type="text"
-        value="{{ form.image_path }}"
-      >
-    </div>
+        <label for="image_path">Hero image path (e.g. images/IMG_1234.JPG)</label>
+        <input
+            id="image_path"
+            name="image_path"
+            type="text"
+            value="{{ form.image_path }}"
+        >
 
-    <div class="form-actions">
-      <button type="submit" class="btn-primary">Save Changes</button>
-    </div>
-  </form>
+        <button type="submit">Save Changes</button>
+    </form>
 </div>
 {% endblock %}
