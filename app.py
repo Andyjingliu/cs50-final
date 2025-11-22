@@ -51,6 +51,19 @@ def generate_unique_slug(title: str, conn) -> str:
 def homepage():
     conn = get_db_connection()
 
+    # Load hero + about content (single row, id = 1)
+    home_content = conn.execute(
+        """
+        SELECT hero_title,
+               hero_subtitle,
+               hero_image_path,
+               about_title,
+               about_body
+        FROM homepage_content
+        WHERE id = 1
+        """
+    ).fetchone()
+
     # Load latest 4 articles
     articles = conn.execute(
         "SELECT * FROM articles ORDER BY created_at DESC LIMIT 4"
@@ -63,7 +76,12 @@ def homepage():
 
     conn.close()
 
-    return render_template("homepage.html", articles=articles, videos=videos)
+    return render_template(
+        "homepage.html",
+        home_content=home_content,
+        articles=articles,
+        videos=videos,
+    )
 
 @app.route("/articles")
 def articles():
@@ -101,6 +119,80 @@ def videos():
     ).fetchall()
     conn.close()
     return render_template("videos.html", videos=videos)
+
+from flask import render_template, request, redirect, url_for
+# ^ you already have these, just reminding
+
+@app.route("/admin/homepage", methods=["GET", "POST"])
+def admin_homepage():
+    conn = get_db_connection()
+
+    if request.method == "POST":
+        hero_title = request.form.get("hero_title", "").strip()
+        hero_subtitle = request.form.get("hero_subtitle", "").strip()
+        hero_image_path = request.form.get("hero_image_path", "").strip()
+        about_title = request.form.get("about_title", "").strip()
+        about_body = request.form.get("about_body", "").strip()
+
+        error = None
+        if not hero_title or not hero_subtitle or not about_title or not about_body:
+            error = "Hero title, hero subtitle, about title, and about body are required."
+
+        if error:
+            home_content = conn.execute(
+                """
+                SELECT hero_title,
+                       hero_subtitle,
+                       hero_image_path,
+                       about_title,
+                       about_body
+                FROM homepage_content
+                WHERE id = 1
+                """
+            ).fetchone()
+            conn.close()
+            return render_template(
+                "admin_homepage.html",
+                home_content=home_content,
+                error=error,
+            )
+
+        # Update the single homepage_content row (id = 1)
+        conn.execute(
+            """
+            UPDATE homepage_content
+            SET hero_title = ?,
+                hero_subtitle = ?,
+                hero_image_path = ?,
+                about_title = ?,
+                about_body = ?
+            WHERE id = 1
+            """,
+            (hero_title, hero_subtitle, hero_image_path, about_title, about_body),
+        )
+        conn.commit()
+        conn.close()
+        return redirect(url_for("homepage"))
+
+    # GET: show current values in the form
+    home_content = conn.execute(
+        """
+        SELECT hero_title,
+               hero_subtitle,
+               hero_image_path,
+               about_title,
+               about_body
+        FROM homepage_content
+        WHERE id = 1
+        """
+    ).fetchone()
+    conn.close()
+
+    return render_template(
+        "admin_homepage.html",
+        home_content=home_content,
+        error=None,
+    )
 
 @app.route("/admin/new-article", methods=["GET", "POST"])
 def new_article():
