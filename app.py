@@ -102,7 +102,17 @@ def homepage():
 def articles():
     conn = get_db_connection()
     articles = conn.execute(
-        "SELECT id, title, summary, slug, image_path FROM articles ORDER BY created_at DESC"
+        """
+        SELECT
+            id,
+            title,
+            summary,
+            slug,
+            image_path,
+            created_at
+        FROM articles
+        ORDER BY created_at DESC
+        """
     ).fetchall()
     conn.close()
     return render_template("articles.html", articles=articles)
