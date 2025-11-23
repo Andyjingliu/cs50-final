@@ -120,6 +120,38 @@ def videos():
     conn.close()
     return render_template("videos.html", videos=videos)
 
+@app.route("/admin")
+def admin_dashboard():
+    conn = get_db_connection()
+
+    # Latest 5 articles for quick editing
+    articles = conn.execute(
+        """
+        SELECT id, title, created_at
+        FROM articles
+        ORDER BY created_at DESC
+        LIMIT 5
+        """
+    ).fetchall()
+
+    # Latest 5 videos (optional section on dashboard)
+    videos = conn.execute(
+        """
+        SELECT id, title
+        FROM videos
+        ORDER BY id DESC
+        LIMIT 5
+        """
+    ).fetchall()
+
+    conn.close()
+
+    return render_template(
+        "admin_dashboard.html",
+        articles=articles,
+        videos=videos,
+    )
+
 @app.route("/admin/homepage", methods=["GET", "POST"])
 def admin_homepage():
     conn = get_db_connection()

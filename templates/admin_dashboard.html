@@ -1,0 +1,93 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container">
+
+  <h1>Admin Dashboard</h1>
+  <p class="link-quiet">
+    <a href="{{ url_for('homepage') }}">← Back to site</a>
+  </p>
+
+  <!-- Quick actions -->
+  <section class="admin-actions">
+    <h2>Quick Actions</h2>
+
+    <div class="admin-actions-grid">
+      <a href="{{ url_for('admin_homepage') }}" class="btn">
+        Edit homepage content
+      </a>
+
+      <a href="{{ url_for('new_article') }}" class="btn">
+        Write new article
+      </a>
+
+      <a href="{{ url_for('articles') }}" class="btn">
+        View all articles
+      </a>
+
+      <a href="{{ url_for('videos') }}" class="btn">
+        View videos page
+      </a>
+    </div>
+  </section>
+
+  <!-- Recent articles -->
+  <section class="admin-section">
+    <h2>Recent Articles</h2>
+    <p class="admin-section-help">
+      The 5 most recent articles. Click “Edit” to update content.
+    </p>
+
+    <table class="admin-table">
+      <thead>
+        <tr>
+          <th>Title</th>
+          <th>Created</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for a in articles %}
+          <tr>
+            <td>{{ a["title"] }}</td>
+            <td>
+              {% if a["created_at"] %}
+                {{ a["created_at"] }}
+              {% else %}
+                —
+              {% endif %}
+            </td>
+            <td class="admin-table-actions">
+              <a href="{{ url_for('edit_article', article_id=a['id']) }}"
+                 class="link-quiet">
+                Edit
+              </a>
+            </td>
+          </tr>
+        {% else %}
+          <tr>
+            <td colspan="3">No articles yet.</td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </section>
+
+  <!-- Recent videos (optional) -->
+  <section class="admin-section">
+    <h2>Recent Videos</h2>
+    <p class="admin-section-help">
+      Latest videos currently shown on the site.
+    </p>
+
+    <ul class="admin-list">
+      {% for v in videos %}
+        <li>{{ v["title"] }}</li>
+      {% else %}
+        <li>No videos yet.</li>
+      {% endfor %}
+    </ul>
+  </section>
+
+</div>
+{% endblock %}
