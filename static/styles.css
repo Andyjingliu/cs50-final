@@ -154,6 +154,23 @@ footer {
   border: 0;
 }
 
+/* Smooth fade-in for lazy YouTube embeds */
+.video-iframe {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border: 0;
+  opacity: 0;                 /* start invisible */
+  transition: opacity 0.25s ease;
+  border-radius: 12px;        /* match .video-wrapper */
+}
+
+/* Once loaded, fade the iframe in */
+.video-iframe.is-ready {
+  opacity: 1;
+}
+
 /* ===== Homepage ===== */
 
 /* --- Homepage Layout --- */
@@ -660,6 +677,47 @@ footer {
 
 .video-link a:hover {
   text-decoration: underline;
+}
+
+/* ===== Video thumbnails (YouTube lazy embed) ===== */
+
+.video-wrapper.video-lazy {
+  cursor: pointer;
+}
+
+/* Thumbnail image fills the 16:9 wrapper */
+.video-thumb {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border: 0;
+  display: block;
+  border-radius: 12px;
+}
+
+/* Play button overlay */
+.video-play-button {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 64px;
+  height: 64px;
+  border-radius: 999px;
+  border: none;
+  background: rgba(15, 23, 42, 0.85);
+  color: #ffffff;
+  font-size: 1.8rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.video-play-button:hover {
+  background: rgba(37, 99, 235, 0.95);  /* slightly brighter on hover */
 }
 
 /* ===== Admin dashboard ===== */
