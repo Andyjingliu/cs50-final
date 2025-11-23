@@ -21,6 +21,12 @@
 
             <h2>{{ article["title"] }}</h2>
 
+            {% if article["created_at"] %}
+              <p class="article-meta">
+                {{ article["created_at"] }}
+              </p>
+            {% endif %}
+
             {% if article["summary"] %}
               <p>{{ article["summary"] }}</p>
             {% endif %}

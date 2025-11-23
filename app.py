@@ -2,6 +2,7 @@ import sqlite3
 import re
 from flask import Flask, render_template, abort, request, redirect, url_for
 import markdown2
+from datetime import datetime
 
 app = Flask(__name__)
 
@@ -46,6 +47,20 @@ def generate_unique_slug(title: str, conn) -> str:
         # slug taken → try base-2, base-3, ...
         slug = f"{base_slug}-{counter}"
         counter += 1
+
+@app.template_filter("nice_date")
+def nice_date(value):
+    """
+    Turn '2025-11-23 09:33:12' into 'Nov 23, 2025'.
+    If anything goes wrong, just return the original value.
+    """
+    if not value:
+        return ""
+    try:
+        dt = datetime.strptime(value, "%Y-%m-%d %H:%M:%S")
+        return dt.strftime("%b %d, %Y")
+    except ValueError:
+        return value
 
 @app.route("/")
 def homepage():
