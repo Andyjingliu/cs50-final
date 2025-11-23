@@ -1,3 +1,13 @@
+# Virtual environments
+venv/
 .venv/
+testenv/
+
+# Python cache
 __pycache__/
+
+# SQLite database
 database.db
+
+# VS Code settings 
+.vscode/
