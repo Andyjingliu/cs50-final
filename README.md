@@ -23,6 +23,7 @@ My goal was to build something real — not a toy demo — and to understand eve
 
 ## Project Structure
 
+```text
 project/
 ├── app.py
 ├── requirements.txt
@@ -44,6 +45,7 @@ project/
     ├── admin_edit_article.html
     ├── admin_homepage.html
     └── 404.html
+```
 
 Main Features
 
