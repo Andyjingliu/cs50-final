@@ -21,31 +21,29 @@ The project includes:
 
 My goal was to build something real — not a toy demo — and to understand every line of code involved.
 
-Project Structure
+## Project Structure
+
 project/
-│
 ├── app.py
 ├── requirements.txt
 ├── database.db
 ├── README.md
-│
 ├── static/
 │   ├── images/
-│   ├── style.css
+│   ├── styles.css
 │   ├── script.js
-│   ├── favicon.ico
-│
-├── templates/
-│   ├── base.html
-│   ├── homepage.html
-│   ├── articles.html
-│   ├── article_detail.html
-│   ├── videos.html
-│   ├── admin_dashboard.html
-│   ├── admin_new_article.html
-│   ├── admin_edit_article.html
-│   ├── admin_homepage.html
-│   ├── 404.html
+│   └── favicon.png
+└── templates/
+    ├── base.html
+    ├── homepage.html
+    ├── articles.html
+    ├── article_detail.html
+    ├── videos.html
+    ├── admin_dashboard.html
+    ├── admin_new_article.html
+    ├── admin_edit_article.html
+    ├── admin_homepage.html
+    └── 404.html
 
 Main Features
 
