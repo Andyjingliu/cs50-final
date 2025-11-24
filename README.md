@@ -4,7 +4,7 @@ A Custom CMS + Bilingual Commentary Website (Flask, SQLite, Markdown)
 
 Overview
 
-For my CS50 final project, I designed and built a fully custom CMS (Content Management System) and website using Flask, SQLite, Markdown, HTML/CSS, and a small layer of JavaScript. The site serves as a platform for my long-form commentary on China's current events and provide in-depth analysis. I also integrated a dynamic video section connected to my YouTube channel.
+For my CS50 final project, I designed and built a fully custom CMS (Content Management System) and website using Flask, SQLite, Markdown, HTML/CSS, and a small layer of JavaScript. The site serves as a platform for my long-form analysis, news commentary, and videos connected to my YouTube channel. I also integrated a dynamic video section connected to my YouTube channel.
 
 The project includes:
 	•	A public-facing homepage with dynamic hero + about sections
@@ -175,7 +175,7 @@ Technologies Used
 How to Run the Project
 
 1. Clone repository
-git clone <your repo url>
+git clone https://github.com/Andyjingliu/cs50-final
 cd project
 
 2. Create and activate a virtual environment
