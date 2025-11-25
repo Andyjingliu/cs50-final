@@ -1,8 +1,9 @@
-import sqlite3
 import re
-from flask import Flask, render_template, abort, request, redirect, url_for
-import markdown2
+import sqlite3
 from datetime import datetime
+
+import markdown2
+from flask import Flask, abort, redirect, render_template, request, url_for
 
 app = Flask(__name__)
 
