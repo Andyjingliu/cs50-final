@@ -88,7 +88,7 @@ def homepage():
     videos = conn.execute(
         "SELECT * FROM videos ORDER BY id DESC LIMIT 4"
     ).fetchall()
-
+   
     conn.close()
 
     return render_template(
