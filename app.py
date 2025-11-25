@@ -83,7 +83,7 @@ def homepage():
     articles = conn.execute(
         "SELECT * FROM articles ORDER BY created_at DESC LIMIT 4"
     ).fetchall()
-
+ 
     # Load latest 4 videos
     videos = conn.execute(
         "SELECT * FROM videos ORDER BY id DESC LIMIT 4"
