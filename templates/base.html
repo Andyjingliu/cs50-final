@@ -1,27 +1,32 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <!-- Favicon -->
-        <link rel="icon" type="image/png" href="{{ url_for('static', filename='favicon.png') }}">
-        <title>{% block title%}CS50 Final{% endblock%}</title>
-        <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
-    </head>
-    <body>
-        <nav>
-            <a href="{{ url_for('homepage') }}">Home</a>
-            <a href="{{ url_for('articles') }}">Articles</a>
-            <a href="{{ url_for('videos') }}">Videos</a>
-        </nav>
+  <head>
+    <meta charset="UTF-8" />
+    <!-- Favicon -->
+    <link
+      rel="icon"
+      type="image/png"
+      href="{{ url_for('static', filename='favicon.png') }}"
+    />
+    <title>{% block title%}CS50 Final{% endblock%}</title>
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='styles.css') }}"
+    />
+  </head>
+  <body>
+    <nav>
+      <a href="{{ url_for('homepage') }}">Home</a>
+      <a href="{{ url_for('articles') }}">Articles</a>
+      <a href="{{ url_for('videos') }}">Videos</a>
+    </nav>
 
-        <div class="container">
-            {% block content %}{% endblock %}
-        </div>
+    <div class="container">{% block content %}{% endblock %}</div>
 
-        <footer>
-            <small>&copy; 2025 AndyJingLiu</small>
-        </footer>
+    <footer>
+      <small>&copy; 2025 AndyJingLiu</small>
+    </footer>
 
-        <script src="{{ url_for('static', filename='script.js') }}"></script>
-    </body>
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+  </body>
 </html>

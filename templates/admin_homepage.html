@@ -1,61 +1,56 @@
-{% extends "base.html" %}
+{% extends "base.html" %} {% block content %}
+<div class="container">
+  <h1>Edit Homepage Content</h1>
 
-{% block content %}
-  <div class="container">
-    <h1>Edit Homepage Content</h1>
+  <form method="post" class="article-form">
+    <!-- Hero Section -->
+    <h2 class="form-section-heading">Hero Section</h2>
 
-    <form method="post" class="article-form">
+    <label for="hero_title">Hero title</label>
+    <input
+      type="text"
+      id="hero_title"
+      name="hero_title"
+      value="{{ homepage.hero_title or '' }}"
+      required
+    />
 
-      <!-- Hero Section -->
-      <h2 class="form-section-heading">Hero Section</h2>
+    <label for="hero_tagline">Hero subtitle</label>
+    <input
+      type="text"
+      id="hero_tagline"
+      name="hero_tagline"
+      value="{{ homepage.hero_tagline or '' }}"
+    />
 
-      <label for="hero_title">Hero title</label>
-      <input
-        type="text"
-        id="hero_title"
-        name="hero_title"
-        value="{{ homepage.hero_title or '' }}"
-        required
-      >
+    <label for="hero_image_path"
+      >Hero image path (e.g. images/IMG_1761.JPG)</label
+    >
+    <input
+      type="text"
+      id="hero_image_path"
+      name="hero_image_path"
+      value="{{ homepage.hero_image_path or '' }}"
+    />
 
-      <label for="hero_tagline">Hero subtitle</label>
-      <input
-        type="text"
-        id="hero_tagline"
-        name="hero_tagline"
-        value="{{ homepage.hero_tagline or '' }}"
-      >
+    <!-- About This Site Section -->
+    <h2 class="form-section-heading">About This Site Section</h2>
 
-      <label for="hero_image_path">Hero image path (e.g. images/IMG_1761.JPG)</label>
-      <input
-        type="text"
-        id="hero_image_path"
-        name="hero_image_path"
-        value="{{ homepage.hero_image_path or '' }}"
-      >
+    <label for="about_title">About section title</label>
+    <input
+      type="text"
+      id="about_title"
+      name="about_title"
+      value="{{ homepage.about_title or '' }}"
+      required
+    />
 
-      <!-- About This Site Section -->
-      <h2 class="form-section-heading">About This Site Section</h2>
+    <label for="about_text">About section text</label>
+    <textarea id="about_text" name="about_text" rows="4">
+{{ homepage.about_text or '' }}</textarea
+    >
 
-      <label for="about_title">About section title</label>
-      <input
-        type="text"
-        id="about_title"
-        name="about_title"
-        value="{{ homepage.about_title or '' }}"
-        required
-      >
-
-      <label for="about_text">About section text</label>
-      <textarea
-        id="about_text"
-        name="about_text"
-        rows="4"
-      >{{ homepage.about_text or '' }}</textarea>
-
-      <button type="submit" class="btn">
-        Save homepage content
-      </button>
-    </form>
-  </div>
+    <button type="submit" class="btn">Save homepage content</button>
+  </form>
+</div>
 {% endblock %}

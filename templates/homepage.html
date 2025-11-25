@@ -1,86 +1,86 @@
-{% extends "base.html" %}
-{% block content %}
+{% extends "base.html" %} {% block content %}
 
 <div class="home-container">
+  <!-- HERO SECTION -->
+  <section class="hero">
+    <h1>{{ home_content['hero_title'] }}</h1>
+    <p>{{ home_content['hero_subtitle'] }}</p>
 
-    <!-- HERO SECTION -->
-    <section class="hero">
-        <h1>{{ home_content['hero_title'] }}</h1>
-        <p>{{ home_content['hero_subtitle'] }}</p>
+    {% if home_content['hero_image_path'] %}
+    <img
+      src="{{ url_for('static', filename=home_content['hero_image_path']) }}"
+      alt="Hero Image"
+      class="hero-img"
+    />
+    {% endif %}
+  </section>
 
-        {% if home_content['hero_image_path'] %}
-            <img
-                src="{{ url_for('static', filename=home_content['hero_image_path']) }}"
-                alt="Hero Image"
-                class="hero-img">
+  <!-- ABOUT SECTION -->
+  <section class="about">
+    <h2>{{ home_content['about_title'] }}</h2>
+    <p>{{ home_content['about_body'] }}</p>
+  </section>
+
+  <!-- LATEST ARTICLES -->
+  <section class="latest">
+    <h2>Latest Articles</h2>
+
+    <div class="article-grid">
+      {% for a in articles %}
+      <div class="article-card">
+        <h3>
+          <a href="{{ url_for('article_detail', slug=a['slug']) }}">
+            {{ a['title'] }}
+          </a>
+        </h3>
+        <p>{{ a['summary'] }}</p>
+
+        {% if a['image_path'] %}
+        <img
+          src="{{ url_for('static', filename=a['image_path']) }}"
+          class="thumb"
+        />
         {% endif %}
-    </section>
+      </div>
+      {% endfor %}
+    </div>
 
-    <!-- ABOUT SECTION -->
-    <section class="about">
-        <h2>{{ home_content['about_title'] }}</h2>
-        <p>{{ home_content['about_body'] }}</p>
-    </section>
+    <div class="see-more">
+      <a href="{{ url_for('articles') }}" class="link-arrow">
+        View all articles →
+      </a>
+    </div>
+  </section>
 
-    <!-- LATEST ARTICLES -->
-    <section class="latest">
-        <h2>Latest Articles</h2>
+  <!-- LATEST VIDEOS -->
+  <section class="home-section">
+    <h2>Latest Videos</h2>
 
-        <div class="article-grid">
-            {% for a in articles %}
-                <div class="article-card">
-                    <h3>
-                        <a href="{{ url_for('article_detail', slug=a['slug']) }}">
-                            {{ a['title'] }}
-                        </a>
-                    </h3>
-                    <p>{{ a['summary'] }}</p>
+    <div class="home-video-grid">
+      {% for video in videos %}
+      <article class="home-video-card">
+        <h3>{{ video["title"] }}</h3>
 
-                    {% if a['image_path'] %}
-                        <img
-                            src="{{ url_for('static', filename=a['image_path']) }}"
-                            class="thumb">
-                    {% endif %}
-                </div>
-            {% endfor %}
+        <div class="video-wrapper">
+          <iframe
+            src="https://www.youtube.com/embed/{{ video['youtube_id'] }}"
+            title="{{ video['title'] }}"
+            frameborder="0"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowfullscreen
+          >
+          </iframe>
         </div>
+      </article>
+      {% endfor %}
+    </div>
 
-        <div class="see-more">
-            <a href="{{ url_for('articles') }}" class="link-arrow">
-                View all articles →
-            </a>
-        </div>
-    </section>
-
-    <!-- LATEST VIDEOS -->
-    <section class="home-section">
-        <h2>Latest Videos</h2>
-
-        <div class="home-video-grid">
-            {% for video in videos %}
-                <article class="home-video-card">
-                    <h3>{{ video["title"] }}</h3>
-
-                    <div class="video-wrapper">
-                        <iframe
-                            src="https://www.youtube.com/embed/{{ video['youtube_id'] }}"
-                            title="{{ video['title'] }}"
-                            frameborder="0"
-                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                            allowfullscreen>
-                        </iframe>
-                    </div>
-                </article>
-            {% endfor %}
-        </div>
-
-        <p class="home-video-more">
-            <a href="{{ url_for('videos') }}" class="link-arrow">
-                View all videos →
-            </a>
-        </p>
-    </section>
-
+    <p class="home-video-more">
+      <a href="{{ url_for('videos') }}" class="link-arrow">
+        View all videos →
+      </a>
+    </p>
+  </section>
 </div>
 
 {% endblock %}

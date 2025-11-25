@@ -8,16 +8,19 @@ app = Flask(__name__)
 
 DATABASE = "database.db"
 
+
 def auto_summary(text, max_chars=200):
     clean = text.strip().replace("\n", " ")
     if len(clean) > max_chars:
         return clean[:max_chars] + "..."
     return clean
 
+
 def get_db_connection():
     conn = sqlite3.connect(DATABASE)
     conn.row_factory = sqlite3.Row
     return conn
+
 
 def slugify(text: str) -> str:
     text = text.strip().lower()
@@ -26,6 +29,7 @@ def slugify(text: str) -> str:
     # collapse multiple hyphens
     text = re.sub(r"-+", "-", text).strip("-")
     return text or "article"
+
 
 def generate_unique_slug(title: str, conn) -> str:
     """Generate a slug from title, and if it already exists,
@@ -48,6 +52,7 @@ def generate_unique_slug(title: str, conn) -> str:
         slug = f"{base_slug}-{counter}"
         counter += 1
 
+
 @app.template_filter("nice_date")
 def nice_date(value):
     """
@@ -61,6 +66,7 @@ def nice_date(value):
         return dt.strftime("%b %d, %Y")
     except ValueError:
         return value
+
 
 @app.route("/")
 def homepage():
@@ -83,12 +89,10 @@ def homepage():
     articles = conn.execute(
         "SELECT * FROM articles ORDER BY created_at DESC LIMIT 4"
     ).fetchall()
- 
+
     # Load latest 4 videos
-    videos = conn.execute(
-        "SELECT * FROM videos ORDER BY id DESC LIMIT 4"
-    ).fetchall()
-   
+    videos = conn.execute("SELECT * FROM videos ORDER BY id DESC LIMIT 4").fetchall()
+
     conn.close()
 
     return render_template(
@@ -97,6 +101,7 @@ def homepage():
         articles=articles,
         videos=videos,
     )
+
 
 @app.route("/articles")
 def articles():
@@ -117,24 +122,23 @@ def articles():
     conn.close()
     return render_template("articles.html", articles=articles)
 
+
 @app.route("/articles/<slug>")
 def article_detail(slug):
     conn = get_db_connection()
-    article = conn.execute(
-        "SELECT * FROM articles WHERE slug = ?", (slug,)
-    ).fetchone()
+    article = conn.execute("SELECT * FROM articles WHERE slug = ?", (slug,)).fetchone()
     conn.close()
 
     if article is None:
         abort(404)
 
-  # Convert Markdown in article["body"] to HTML
+    # Convert Markdown in article["body"] to HTML
     body_html = markdown2.markdown(
-        article["body"],
-        extras=["fenced-code-blocks", "tables", "strike", "smarty"]
+        article["body"], extras=["fenced-code-blocks", "tables", "strike", "smarty"]
     )
 
     return render_template("article_detail.html", article=article, body_html=body_html)
+
 
 @app.route("/videos")
 def videos():
@@ -144,6 +148,7 @@ def videos():
     ).fetchall()
     conn.close()
     return render_template("videos.html", videos=videos)
+
 
 @app.route("/admin")
 def admin_dashboard():
@@ -177,6 +182,7 @@ def admin_dashboard():
         videos=videos,
     )
 
+
 @app.route("/admin/homepage", methods=["GET", "POST"])
 def admin_homepage():
     conn = get_db_connection()
@@ -190,7 +196,9 @@ def admin_homepage():
 
         error = None
         if not hero_title or not hero_subtitle or not about_title or not about_body:
-            error = "Hero title, hero subtitle, about title, and about body are required."
+            error = (
+                "Hero title, hero subtitle, about title, and about body are required."
+            )
 
         if error:
             homepage = conn.execute(
@@ -247,6 +255,7 @@ def admin_homepage():
         homepage=homepage,
         error=None,
     )
+
 
 @app.route("/admin/new-article", methods=["GET", "POST"])
 def new_article():
@@ -305,6 +314,7 @@ def new_article():
         submit_label="Publish Article",
         form={"title": "", "summary": "", "body": "", "image_path": ""},
     )
+
 
 @app.route("/admin/articles/<int:article_id>/edit", methods=["GET", "POST"])
 def edit_article(article_id):
@@ -402,9 +412,11 @@ def edit_article(article_id):
         article=article,
     )
 
+
 @app.errorhandler(404)
 def page_not_found(e):
     return render_template("404.html"), 404
+
 
 if __name__ == "__main__":
     app.run(debug=True)

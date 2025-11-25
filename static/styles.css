@@ -1,6 +1,7 @@
 /* ===== Global layout & typography ===== */
 body {
-  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+    sans-serif;
   margin: 0;
   padding: 0;
   background: #f5f5f7;
@@ -122,7 +123,7 @@ a:hover {
 .form-section-heading {
   margin-top: 1.5rem;
   margin-bottom: 0.4rem;
-  font-size: 1.0rem;
+  font-size: 1rem;
   font-weight: 600;
 }
 
@@ -161,9 +162,9 @@ footer {
   width: 100%;
   height: 100%;
   border: 0;
-  opacity: 0;                 /* start invisible */
+  opacity: 0; /* start invisible */
   transition: opacity 0.25s ease;
-  border-radius: 12px;        /* match .video-wrapper */
+  border-radius: 12px; /* match .video-wrapper */
 }
 
 /* Once loaded, fade the iframe in */
@@ -182,7 +183,7 @@ footer {
 
 /* --- Public-facing link overrides (Homepage) --- */
 .home-container a {
-  color: #111827;        /* dark neutral */
+  color: #111827; /* dark neutral */
   text-decoration: none;
 }
 
@@ -332,7 +333,7 @@ footer {
 .home-video-card {
   background: #ffffff;
   border-radius: 14px;
-  padding: 1.2rem 1.25rem 1.4rem;  /* match article-card */
+  padding: 1.2rem 1.25rem 1.4rem; /* match article-card */
   border: 1px solid #e5e7eb;
   box-shadow: 0 10px 25px rgba(15, 23, 42, 0.04);
   box-sizing: border-box;
@@ -354,7 +355,7 @@ footer {
 .home-video-card .video-wrapper {
   margin-top: 0.45rem;
   border-radius: 10px;
-  box-shadow: 0 8px 20px rgba(15, 23, 42, 0.10);
+  box-shadow: 0 8px 20px rgba(15, 23, 42, 0.1);
 }
 
 /* "View all videos" link on homepage */
@@ -542,7 +543,8 @@ footer {
 
 /* Inline code & blockquote */
 .article-body code {
-  font-family: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+  font-family: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono",
+    "Courier New", monospace;
   background: #f3f4f6;
   padding: 0.15rem 0.35rem;
   border-radius: 4px;
@@ -593,7 +595,8 @@ footer {
   border-radius: 8px;
   border: 1px solid #d1d5db;
   font-size: 0.95rem;
-  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+    sans-serif;
 }
 
 .article-form textarea {
@@ -627,7 +630,7 @@ footer {
   background: #ffffff;
   border-radius: 16px;
   padding: 1.1rem 1.25rem 1.35rem;
-  margin: 0 0 1.1rem;          /* slightly tighter stack */
+  margin: 0 0 1.1rem; /* slightly tighter stack */
   border: 1px solid #e5e7eb;
   box-shadow: 0 10px 24px rgba(15, 23, 42, 0.06);
 }
@@ -717,7 +720,7 @@ footer {
 }
 
 .video-play-button:hover {
-  background: rgba(37, 99, 235, 0.95);  /* slightly brighter on hover */
+  background: rgba(37, 99, 235, 0.95); /* slightly brighter on hover */
 }
 
 /* ===== Admin dashboard ===== */

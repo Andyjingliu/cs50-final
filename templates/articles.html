@@ -1,41 +1,34 @@
-{% extends "base.html" %}
+{% extends "base.html" %} {% block title %}Articles{% endblock %} {% block
+content %}
+<h1>Articles</h1>
 
-{% block title %}Articles{% endblock %}
+{% if articles %}
+<ul class="article-list">
+  {% for article in articles %}
+  <li class="article-item">
+    <a
+      href="{{ url_for('article_detail', slug=article['slug']) }}"
+      class="article-link"
+    >
+      {% if article["image_path"] %}
+      <img
+        src="{{ url_for('static', filename=article['image_path']) }}"
+        alt="{{ article['title'] }}"
+        class="article-image"
+      />
+      {% endif %}
 
-{% block content %}
-  <h1>Articles</h1>
+      <h2>{{ article["title"] }}</h2>
 
-  {% if articles %}
-    <ul class="article-list">
-      {% for article in articles %}
-        <li class="article-item">
-          <a href="{{ url_for('article_detail', slug=article['slug']) }}" class="article-link">
-
-            {% if article["image_path"] %}
-              <img
-                src="{{ url_for('static', filename=article['image_path']) }}"
-                alt="{{ article['title'] }}"
-                class="article-image"
-              >
-            {% endif %}
-
-            <h2>{{ article["title"] }}</h2>
-
-            {% if article["created_at"] %}
-              <p class="article-meta">
-                {{ article["created_at"] }}
-              </p>
-            {% endif %}
-
-            {% if article["summary"] %}
-              <p>{{ article["summary"] }}</p>
-            {% endif %}
-
-          </a>
-        </li>
-      {% endfor %}
-    </ul>
-  {% else %}
-    <p>No articles yet.</p>
-  {% endif %}
-{% endblock %}
+      {% if article["created_at"] %}
+      <p class="article-meta">{{ article["created_at"] }}</p>
+      {% endif %} {% if article["summary"] %}
+      <p>{{ article["summary"] }}</p>
+      {% endif %}
+    </a>
+  </li>
+  {% endfor %}
+</ul>
+{% else %}
+<p>No articles yet.</p>
+{% endif %} {% endblock %}

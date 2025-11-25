@@ -1,54 +1,36 @@
-{% extends "base.html" %}
-
-{% block title %}New Article · Admin{% endblock %}
-
-{% block content %}
-  {% if mode == "edit" %}
-  <h1>Edit Article</h1>
+{% extends "base.html" %} {% block title %}New Article · Admin{% endblock %} {%
+block content %} {% if mode == "edit" %}
+<h1>Edit Article</h1>
 {% else %}
-  <h1>New Article</h1>
+<h1>New Article</h1>
+{% endif %} {% if error %}
+<div class="error-message">{{ error }}</div>
 {% endif %}
 
-  {% if error %}
-    <div class="error-message">
-      {{ error }}
-    </div>
-  {% endif %}
+<form action="{{ url_for('new_article') }}" method="post" class="article-form">
+  <label for="title">Title</label>
+  <input
+    type="text"
+    id="title"
+    name="title"
+    value="{{ form.title }}"
+    required
+  />
 
-  <form action="{{ url_for('new_article') }}" method="post" class="article-form">
+  <label for="summary">Summary (optional)</label>
+  <textarea id="summary" name="summary" rows="3">{{ form.summary }}</textarea>
 
-    <label for="title">Title</label>
-    <input
-      type="text"
-      id="title"
-      name="title"
-      value="{{ form.title }}"
-      required
-    >
+  <label for="body">Body (Markdown)</label>
+  <textarea id="body" name="body" rows="12" required>{{ form.body }}</textarea>
 
-    <label for="summary">Summary (optional)</label>
-    <textarea
-      id="summary"
-      name="summary"
-      rows="3"
-    >{{ form.summary }}</textarea>
+  <label for="image_path">Hero image path (e.g. images/IMG_1234.JPG)</label>
+  <input
+    type="text"
+    id="image_path"
+    name="image_path"
+    value="{{ form.image_path }}"
+  />
 
-    <label for="body">Body (Markdown)</label>
-    <textarea
-      id="body"
-      name="body"
-      rows="12"
-      required
-    >{{ form.body }}</textarea>
-
-    <label for="image_path">Hero image path (e.g. images/IMG_1234.JPG)</label>
-    <input
-      type="text"
-      id="image_path"
-      name="image_path"
-      value="{{ form.image_path }}"
-    >
-
-    <button type="submit" class="btn">{{ submit_label }}</button>
-  </form>
+  <button type="submit" class="btn">{{ submit_label }}</button>
+</form>
 {% endblock %}
