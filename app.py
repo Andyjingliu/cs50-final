@@ -133,30 +133,32 @@ def nice_date(value):
 
 @app.route("/")
 def homepage():
-    conn = get_db_connection()
+    with get_db_connection() as conn:
 
-    # Load hero + about content (single row, id = 1)
-    home_content = conn.execute(
-        """
-        SELECT hero_title,
-               hero_subtitle,
-               hero_image_path,
-               about_title,
-               about_body
-        FROM homepage_content
-        WHERE id = 1
-        """
-    ).fetchone()
+        # Load hero + about content (single row, id = 1)
+        home_content = conn.execute(
+            """
+            SELECT hero_title,
+                   hero_subtitle,
+                   hero_image_path,
+                   about_title,
+                   about_body
+            FROM homepage_content
+            WHERE id = 1
+            """
+        ).fetchone()
 
-    # Load latest 4 articles
-    articles = conn.execute(
-        "SELECT * FROM articles ORDER BY created_at DESC LIMIT 4"
-    ).fetchall()
+        # Load latest 4 articles
+        articles = conn.execute(
+            "SELECT * FROM articles ORDER BY created_at DESC LIMIT 4"
+        ).fetchall()
 
-    # Load latest 4 videos
-    videos = conn.execute("SELECT * FROM videos ORDER BY id DESC LIMIT 4").fetchall()
+        # Load latest 4 videos
+        videos = conn.execute(
+            "SELECT * FROM videos ORDER BY id DESC LIMIT 4"
+        ).fetchall()
 
-    conn.close()
+    # ← automatic close happens right here
 
     return render_template(
         "homepage.html",
@@ -168,21 +170,32 @@ def homepage():
 
 @app.route("/articles")
 def articles():
-    conn = get_db_connection()
-    articles = conn.execute(
-        """
-        SELECT
-            id,
-            title,
-            summary,
-            slug,
-            image_path,
-            created_at
-        FROM articles
-        ORDER BY created_at DESC
-        """
-    ).fetchall()
-    conn.close()
+    # Open a database connection using a context manager.
+    # The connection will automatically close after the block finishes.
+    with get_db_connection() as conn:
+
+        # Query the database for all articles, retrieving only the columns
+        # needed for the articles list page. We order by created_at so
+        # the newest articles appear first.
+        articles = conn.execute(
+            """
+            SELECT
+                id,
+                title,
+                summary,
+                slug,
+                image_path,
+                created_at
+            FROM articles
+            ORDER BY created_at DESC
+            """
+        ).fetchall()
+        # fetchall() returns a list of rows (each row behaves like a dict
+        # because row_factory = sqlite3.Row is set in get_db_connection).
+
+    # After exiting the 'with' block, the database connection is closed automatically.
+
+    # Render the articles page and pass the list of articles to the template.
     return render_template("articles.html", articles=articles)
 
 
