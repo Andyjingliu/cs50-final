@@ -11,10 +11,32 @@ DATABASE = "database.db"
 
 
 def auto_summary(text, max_chars=200):
+    """
+    Create a clean summary without breaking words.
+    If the text is shorter than max_chars, return it as-is.
+    Otherwise, cut at the last space before max_chars and append "...".
+    """
+
+    # Remove leading/trailing whitespace and replace newlines with spaces
     clean = text.strip().replace("\n", " ")
-    if len(clean) > max_chars:
-        return clean[:max_chars] + "..."
-    return clean
+
+    # If the entire text already fits within max_chars, just return it
+    if len(clean) <= max_chars:
+        return clean
+
+    # Take the first max_chars characters (this might cut a word)
+    snippet = clean[:max_chars]
+
+    # Find the index of the last space within this snippet
+    # This helps us avoid cutting words in the middle
+    last_space = snippet.rfind(" ")
+
+    # If no space exists, the snippet is one long word → just hard cut
+    if last_space == -1:
+        return snippet + "..."
+
+    # Otherwise, cut cleanly at the last space (last full word)
+    return snippet[:last_space] + "..."
 
 
 def get_db_connection():
