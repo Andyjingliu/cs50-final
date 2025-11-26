@@ -68,8 +68,20 @@ def auto_summary(text, max_chars=200):
 
 
 def get_db_connection():
+    """
+    Open a connection to the SQLite database and configure it so that
+    each row behaves like a dictionary (accessible by column name).
+    """
+
+    # Connect to the SQLite database file whose path is stored in DATABASE.
+    # This returns a new connection object each time the function is called.
     conn = sqlite3.connect(DATABASE)
+
+    # Configure the connection so that rows are returned as sqlite3.Row objects.
+    # This allows us to do row["title"] instead of row[0], which is cleaner.
     conn.row_factory = sqlite3.Row
+
+    # Return the configured connection to the caller.
     return conn
 
 
