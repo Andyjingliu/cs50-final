@@ -13,49 +13,57 @@ DATABASE = "database.db"
 def auto_summary(text, max_chars=200):
     """
     Create a clean summary with these rules:
-    1. Never break words.
-    2. If the cut happens exactly at a word boundary, keep the entire word.
-    3. Only shorten if needed.
-    4. Append "..." only when truncation occurs.
+    1. Never break words in the middle if we can avoid it.
+    2. If the cut lands exactly on a word boundary, keep the whole word.
+    3. Punctuation right after the cut is treated as a clean boundary.
+    4. Only shorten when needed.
+    5. Append "..." only when truncation happens.
     """
 
-    # Clean the text: remove leading/trailing whitespace
-    # and convert any newline into a space
+    # Normalize the text:
+    # - strip leading/trailing whitespace
+    # - replace newlines with spaces so the summary is single-line friendly
     clean = text.strip().replace("\n", " ")
 
-    # If the text already fits within the limit, return it directly
+    # If the whole text fits within the limit, no summary needed
     if len(clean) <= max_chars:
         return clean
 
-    # Slice the text to the character limit
+    # Take the first max_chars characters as an initial candidate
     snippet = clean[:max_chars]
 
-    # If the slice ends exactly at a space (perfect word boundary)
-    # then we just remove the trailing space and keep everything.
+    # If the snippet ends with a space, we already have a clean word boundary.
+    # Just strip the extra space and add "..." to show truncation.
     if snippet.endswith(" "):
         return snippet.rstrip() + "..."
 
-    # If the slice ends with a letter, we need to check whether
-    # we are at the end of a full word or in the middle of one.
-    #
-    # Check the next character in the original clean string (if it exists):
-    # - If it's a space or punctuation, we ended at a clean boundary.
-    # - If it's a letter or number, we cut in the middle of a word.
-    if len(clean) > max_chars and not clean[max_chars].isspace():
-        # We cut a word in half → find the last space
+    # At this point, the snippet does NOT end with a space.
+    # Look at the next character in the original text (the one right after the cut).
+    next_char = clean[max_chars]
+
+    # Case 1: Next character is a letter or digit
+    # → we almost certainly cut inside a word ("Flas|k", "202|4", etc.)
+    if next_char.isalpha() or next_char.isdigit():
+        # Find the last space in the snippet so we can back up to the last full word.
         last_space = snippet.rfind(" ")
 
-        # If no space exists (one long word), hard truncate
+        # If there is no space at all, the snippet is one long word.
+        # In that edge case, we have no choice but to hard-truncate.
         if last_space == -1:
             return snippet + "..."
 
-        # Otherwise cut cleanly at the last full word
+        # Otherwise, cut cleanly at the last full word and add "..."
         return snippet[:last_space] + "..."
 
-    # If we reach here:
-    # - clipped at max_chars
-    # - next char is a space or punctuation
-    # → Meaning we ended at a full word, so keep everything.
+    # Case 2: Next character is whitespace
+    # e.g. "Learning Flask| is"
+    # → we actually ended at the end of a complete word already.
+    if next_char.isspace():
+        return snippet + "..."
+
+    # Case 3: Next character is punctuation or something else
+    # e.g. "Learning Flask|."  → "." is punctuation, but the word "Flask" is complete.
+    # We treat this as a clean boundary as well.
     return snippet + "..."
 
 
