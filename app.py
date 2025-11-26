@@ -201,57 +201,79 @@ def articles():
 
 @app.route("/articles/<slug>")
 def article_detail(slug):
-    conn = get_db_connection()
-    article = conn.execute("SELECT * FROM articles WHERE slug = ?", (slug,)).fetchone()
-    conn.close()
+    # Open a database connection using a context manager.
+    # The connection will automatically close when the block ends.
+    with get_db_connection() as conn:
 
+        # Fetch the article whose slug matches the one from the URL.
+        # fetchone() is used because we expect exactly one article.
+        article = conn.execute(
+            "SELECT * FROM articles WHERE slug = ?", (slug,)
+        ).fetchone()
+
+    # After leaving the 'with' block, the database connection is automatically closed.
+
+    # If no article is found, return a 404 Not Found page.
     if article is None:
         abort(404)
 
-    # Convert Markdown in article["body"] to HTML
+    # Convert the Markdown body into HTML for safe display in the template.
+    # Extras enable support for code blocks, tables, strike-through, etc.
     body_html = markdown2.markdown(
         article["body"], extras=["fenced-code-blocks", "tables", "strike", "smarty"]
     )
 
+    # Render the article detail page with the article data and converted HTML body.
     return render_template("article_detail.html", article=article, body_html=body_html)
 
 
 @app.route("/videos")
 def videos():
-    conn = get_db_connection()
-    videos = conn.execute(
-        "SELECT id, title, youtube_id, description FROM videos ORDER BY id DESC"
-    ).fetchall()
-    conn.close()
+    # Open a database connection. The connection will automatically close
+    # once we exit the 'with' block below.
+    with get_db_connection() as conn:
+
+        # Retrieve all videos from the database, ordered by newest first.
+        # fetchall() is correct here because we expect multiple rows.
+        videos = conn.execute(
+            "SELECT id, title, youtube_id, description FROM videos ORDER BY id DESC"
+        ).fetchall()
+
+    # After the 'with' block, the database connection is automatically closed.
+
+    # Render the videos page, passing the list of videos to the template.
     return render_template("videos.html", videos=videos)
 
 
 @app.route("/admin")
 def admin_dashboard():
-    conn = get_db_connection()
+    # Open a database connection. It will automatically close
+    # once the 'with' block finishes, even if an error occurs.
+    with get_db_connection() as conn:
 
-    # Latest 5 articles for quick editing
-    articles = conn.execute(
-        """
-        SELECT id, title, created_at
-        FROM articles
-        ORDER BY created_at DESC
-        LIMIT 5
-        """
-    ).fetchall()
+        # Fetch the 5 most recent articles for quick editing access.
+        articles = conn.execute(
+            """
+            SELECT id, title, created_at
+            FROM articles
+            ORDER BY created_at DESC
+            LIMIT 5
+            """
+        ).fetchall()
 
-    # Latest 5 videos (optional section on dashboard)
-    videos = conn.execute(
-        """
-        SELECT id, title
-        FROM videos
-        ORDER BY id DESC
-        LIMIT 5
-        """
-    ).fetchall()
+        # Fetch the 5 most recent videos (optional dashboard section).
+        videos = conn.execute(
+            """
+            SELECT id, title
+            FROM videos
+            ORDER BY id DESC
+            LIMIT 5
+            """
+        ).fetchall()
 
-    conn.close()
+    # Connection auto-closes here.
 
+    # Render the admin dashboard, passing recent articles and videos.
     return render_template(
         "admin_dashboard.html",
         articles=articles,
