@@ -86,11 +86,41 @@ def get_db_connection():
 
 
 def slugify(text: str) -> str:
+    """
+    Convert a string (usually an article title) into a URL-friendly slug.
+    Example:
+        "Hello, World!" → "hello-world"
+    """
+
+    # 1. Normalize the text:
+    #    - strip leading/trailing whitespace
+    #    - convert everything to lowercase so the slug is consistent
     text = text.strip().lower()
-    # replace anything not a–z or 0–9 with hyphens
+
+    # 2. Replace any sequence of characters that is NOT a-z or 0-9
+    #    with a single hyphen.
+    #
+    #    Explanation of the regex:
+    #    [^a-z0-9]  → match any character NOT in a-z or 0-9
+    #    +          → match one or more of those characters in a row
+    #
+    #    This turns spaces, punctuation, commas, Chinese characters,
+    #    emojis, anything non-alphanumeric into hyphens.
     text = re.sub(r"[^a-z0-9]+", "-", text)
-    # collapse multiple hyphens
-    text = re.sub(r"-+", "-", text).strip("-")
+
+    # 3. Collapse multiple hyphens into one.
+    #    For example:
+    #    "hello---world" → "hello-world"
+    #    "--hello--world-" → "-hello-world-"
+    text = re.sub(r"-+", "-", text)
+
+    # 4. Remove hyphens from the start or end.
+    #    e.g. "-hello-world-" → "hello-world"
+    text = text.strip("-")
+
+    # 5. Edge case:
+    #    If the result is an empty string (e.g., the original text had no
+    #    letters or digits at all), fall back to a default slug "article".
     return text or "article"
 
 
