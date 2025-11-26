@@ -12,31 +12,51 @@ DATABASE = "database.db"
 
 def auto_summary(text, max_chars=200):
     """
-    Create a clean summary without breaking words.
-    If the text is shorter than max_chars, return it as-is.
-    Otherwise, cut at the last space before max_chars and append "...".
+    Create a clean summary with these rules:
+    1. Never break words.
+    2. If the cut happens exactly at a word boundary, keep the entire word.
+    3. Only shorten if needed.
+    4. Append "..." only when truncation occurs.
     """
 
-    # Remove leading/trailing whitespace and replace newlines with spaces
+    # Clean the text: remove leading/trailing whitespace
+    # and convert any newline into a space
     clean = text.strip().replace("\n", " ")
 
-    # If the entire text already fits within max_chars, just return it
+    # If the text already fits within the limit, return it directly
     if len(clean) <= max_chars:
         return clean
 
-    # Take the first max_chars characters (this might cut a word)
+    # Slice the text to the character limit
     snippet = clean[:max_chars]
 
-    # Find the index of the last space within this snippet
-    # This helps us avoid cutting words in the middle
-    last_space = snippet.rfind(" ")
+    # If the slice ends exactly at a space (perfect word boundary)
+    # then we just remove the trailing space and keep everything.
+    if snippet.endswith(" "):
+        return snippet.rstrip() + "..."
 
-    # If no space exists, the snippet is one long word → just hard cut
-    if last_space == -1:
-        return snippet + "..."
+    # If the slice ends with a letter, we need to check whether
+    # we are at the end of a full word or in the middle of one.
+    #
+    # Check the next character in the original clean string (if it exists):
+    # - If it's a space or punctuation, we ended at a clean boundary.
+    # - If it's a letter or number, we cut in the middle of a word.
+    if len(clean) > max_chars and not clean[max_chars].isspace():
+        # We cut a word in half → find the last space
+        last_space = snippet.rfind(" ")
 
-    # Otherwise, cut cleanly at the last space (last full word)
-    return snippet[:last_space] + "..."
+        # If no space exists (one long word), hard truncate
+        if last_space == -1:
+            return snippet + "..."
+
+        # Otherwise cut cleanly at the last full word
+        return snippet[:last_space] + "..."
+
+    # If we reach here:
+    # - clipped at max_chars
+    # - next char is a space or punctuation
+    # → Meaning we ended at a full word, so keep everything.
+    return snippet + "..."
 
 
 def get_db_connection():
