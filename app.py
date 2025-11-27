@@ -83,7 +83,6 @@ def generate_unique_slug(title: str, conn) -> str:
     base_slug = slugify(title)
     slug = base_slug
     counter = 2
-
     while True:
         row = conn.execute(
             "SELECT 1 FROM articles WHERE slug = ?",
