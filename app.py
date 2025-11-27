@@ -1,5 +1,7 @@
 import re
 import sqlite3
+import string
+import unicodedata
 from datetime import datetime
 
 import markdown2
@@ -10,60 +12,31 @@ app = Flask(__name__)
 DATABASE = "database.db"
 
 
-def auto_summary(text, max_chars=200):
-    """
-    Create a clean summary with these rules:
-    1. Never break words in the middle if we can avoid it.
-    2. If the cut lands exactly on a word boundary, keep the whole word.
-    3. Punctuation right after the cut is treated as a clean boundary.
-    4. Only shorten when needed.
-    5. Append "..." only when truncation happens.
-    """
+import string
 
-    # Normalize the text:
-    # - strip leading/trailing whitespace
-    # - replace newlines with spaces so the summary is single-line friendly
-    clean = text.strip().replace("\n", " ")
 
-    # If the whole text fits within the limit, no summary needed
+def auto_summary(text: str, max_chars: int = 200) -> str:
+    # 1. Normalize whitespace (handles \n, \t, and double spaces)
+    clean = " ".join(text.split())
+
     if len(clean) <= max_chars:
         return clean
 
-    # Take the first max_chars characters as an initial candidate
+    # 2. Initial cut
     snippet = clean[:max_chars]
 
-    # If the snippet ends with a space, we already have a clean word boundary.
-    # Just strip the extra space and add "..." to show truncation.
-    if snippet.endswith(" "):
-        return snippet.rstrip() + "..."
-
-    # At this point, the snippet does NOT end with a space.
-    # Look at the next character in the original text (the one right after the cut).
-    next_char = clean[max_chars]
-
-    # Case 1: Next character is a letter or digit
-    # → we almost certainly cut inside a word ("Flas|k", "202|4", etc.)
-    if next_char.isalpha() or next_char.isdigit():
-        # Find the last space in the snippet so we can back up to the last full word.
+    # 3. If the next character in 'clean' is NOT a space, we are likely mid-word.
+    # We must backtrack to the last space to avoid cutting the word.
+    if clean[max_chars] != " ":
         last_space = snippet.rfind(" ")
+        # Only slice back if there is actually a space (avoid empty string on long words)
+        if last_space != -1:
+            snippet = snippet[:last_space]
 
-        # If there is no space at all, the snippet is one long word.
-        # In that edge case, we have no choice but to hard-truncate.
-        if last_space == -1:
-            return snippet + "..."
+    # 4. Clean up trailing punctuation (avoids "word,..." or "end....")
+    # string.punctuation includes !"#$%&'()*+,-./:;<=>?@[\]^_`{|}~
+    snippet = snippet.rstrip(string.punctuation + " ")
 
-        # Otherwise, cut cleanly at the last full word and add "..."
-        return snippet[:last_space] + "..."
-
-    # Case 2: Next character is whitespace
-    # e.g. "Learning Flask| is"
-    # → we actually ended at the end of a complete word already.
-    if next_char.isspace():
-        return snippet + "..."
-
-    # Case 3: Next character is punctuation or something else
-    # e.g. "Learning Flask|."  → "." is punctuation, but the word "Flask" is complete.
-    # We treat this as a clean boundary as well.
     return snippet + "..."
 
 
@@ -86,41 +59,21 @@ def get_db_connection():
 
 
 def slugify(text: str) -> str:
-    """
-    Convert a string (usually an article title) into a URL-friendly slug.
-    Example:
-        "Hello, World!" → "hello-world"
-    """
+    # 1. Normalize Unicode characters (e.g., convert 'é' to 'e')
+    text = unicodedata.normalize("NFKD", text)
+    text = text.encode("ascii", "ignore").decode("ascii")
 
-    # 1. Normalize the text:
-    #    - strip leading/trailing whitespace
-    #    - convert everything to lowercase so the slug is consistent
-    text = text.strip().lower()
+    # 2. Lowercase and strip whitespace
+    text = text.lower().strip()
 
-    # 2. Replace any sequence of characters that is NOT a-z or 0-9
-    #    with a single hyphen.
-    #
-    #    Explanation of the regex:
-    #    [^a-z0-9]  → match any character NOT in a-z or 0-9
-    #    +          → match one or more of those characters in a row
-    #
-    #    This turns spaces, punctuation, commas, Chinese characters,
-    #    emojis, anything non-alphanumeric into hyphens.
+    # 3. Replace non-alphanumeric characters with hyphens
+    # Note: We replaced the redundant step here by trusting the '+' quantifier
     text = re.sub(r"[^a-z0-9]+", "-", text)
 
-    # 3. Collapse multiple hyphens into one.
-    #    For example:
-    #    "hello---world" → "hello-world"
-    #    "--hello--world-" → "-hello-world-"
-    text = re.sub(r"-+", "-", text)
-
-    # 4. Remove hyphens from the start or end.
-    #    e.g. "-hello-world-" → "hello-world"
+    # 4. Remove leading/trailing hyphens
     text = text.strip("-")
 
-    # 5. Edge case:
-    #    If the result is an empty string (e.g., the original text had no
-    #    letters or digits at all), fall back to a default slug "article".
+    # 5. Fallback
     return text or "article"
 
 
