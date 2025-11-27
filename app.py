@@ -268,17 +268,17 @@ def admin_homepage():
     conn = get_db_connection()
 
     if request.method == "POST":
+        # 1) Read form fields (names must match HTML)
         hero_title = request.form.get("hero_title", "").strip()
         hero_subtitle = request.form.get("hero_subtitle", "").strip()
         hero_image_path = request.form.get("hero_image_path", "").strip()
         about_title = request.form.get("about_title", "").strip()
         about_body = request.form.get("about_body", "").strip()
 
+        # 2) Basic validation (make About body optional if you want)
         error = None
-        if not hero_title or not hero_subtitle or not about_title or not about_body:
-            error = (
-                "Hero title, hero subtitle, about title, and about body are required."
-            )
+        if not hero_title or not hero_subtitle or not about_title:
+            error = "Hero title, hero subtitle, and about title are required."
 
         if error:
             homepage = conn.execute(
@@ -299,7 +299,7 @@ def admin_homepage():
                 error=error,
             )
 
-        # Update the single homepage row
+        # 3) Update DB
         conn.execute(
             """
             UPDATE homepage_content
@@ -314,6 +314,8 @@ def admin_homepage():
         )
         conn.commit()
         conn.close()
+
+        # 4) Go back to homepage to see the changes
         return redirect(url_for("homepage"))
 
     # GET request — load existing data
