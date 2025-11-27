@@ -396,6 +396,35 @@ def new_article():
     )
 
 
+@app.route("/admin/articles/<int:article_id>/delete", methods=["POST"])
+def delete_article(article_id):
+    """
+    Handles the POST request to delete a specific article by ID.
+    """
+    conn = get_db_connection()
+
+    # Check if the article exists before attempting to delete (good practice)
+    article = conn.execute(
+        "SELECT id FROM articles WHERE id = ?", (article_id,)
+    ).fetchone()
+
+    if article is None:
+        conn.close()
+        # Article not found, just redirect back
+        return redirect(url_for("admin_dashboard"))
+
+    # Execute the DELETE statement
+    conn.execute(
+        "DELETE FROM articles WHERE id = ?",
+        (article_id,),
+    )
+    conn.commit()
+    conn.close()
+
+    # Redirect back to the admin dashboard after successful deletion
+    return redirect(url_for("admin_dashboard"))
+
+
 @app.route("/admin/articles/<int:article_id>/edit", methods=["GET", "POST"])
 def edit_article(article_id):
     conn = get_db_connection()

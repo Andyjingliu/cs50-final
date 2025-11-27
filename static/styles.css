@@ -81,6 +81,23 @@ a {
   text-decoration: underline;
 }
 
+/* Make the delete button look like the Edit link */
+.delete-link-button {
+  background: none;
+  border: none;
+  padding: 0;
+  margin: 0;
+  font: inherit;
+  color: #b91c1c; /* same blue as other links */
+  cursor: pointer;
+}
+
+/* Optional: hover state (slightly darker + underline) */
+.delete-link-button:hover {
+  color: #991b1b;
+  text-decoration: underline;
+}
+
 /* CTA Arrow Links ("View all →") */
 .link-arrow {
   color: #2563eb;
