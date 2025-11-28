@@ -16,6 +16,14 @@ import string
 
 
 def auto_summary(text: str, max_chars: int = 200) -> str:
+    """
+    Return a shortened, clean summary without breaking words.
+    - Normalizes whitespace
+    - Cuts at max_chars
+    - Backs up to the nearest space if the cut is mid-word
+    - Strips trailing punctuation
+    - Appends "..." if truncated
+    """
     # 1. Normalize whitespace (handles \n, \t, and double spaces)
     clean = " ".join(text.split())
 
