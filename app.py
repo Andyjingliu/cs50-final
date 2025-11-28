@@ -524,8 +524,14 @@ def edit_article(article_id):
     )
 
 
+# Register a custom handler for HTTP 404 errors (page not found)
 @app.errorhandler(404)
 def page_not_found(e):
+    """
+    Triggered automatically when a user visits a route
+    that does not exist in the application.
+    """
+    # Render custom 404 template and return the correct status code
     return render_template("404.html"), 404
 
 
