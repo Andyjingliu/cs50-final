@@ -220,7 +220,35 @@ Technologies Used
 
 4. **Run the application**
 
-   Option A — Run with Python:
+   **Option A — Run with Python:**
+
+   ```bash
+   python app.py
+   ```
+
+   **Option B — Run with Flask:**
+
+   - On macOS / Linux:
+
+   ```bash
+   export FLASK_APP=app.py
+   export FLASK_ENV=development  # optional for auto-reload
+   flask run
+   ```
+
+   - On Windows (PowerShell):
+
+   ```bash
+   $env:FLASK_APP = "app.py"
+   $env:FLASK_ENV = "development"  # optional for auto-reload
+   flask run
+   ```
+
+5. **Open your browser and visit:**
+
+   ```bash
+   http://127.0.0.1:5000/
+   ```
 
 Future Improvements
 
