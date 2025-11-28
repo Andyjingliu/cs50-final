@@ -116,7 +116,7 @@ def nice_date(value):
         return ""
     try:
         dt = datetime.strptime(value, "%Y-%m-%d %H:%M:%S")
-        return dt.strftime("%b %d, %Y")
+        return dt.strftime("%b %d, %Y %H:%M:%S")
     except ValueError:
         return value
 

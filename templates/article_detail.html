@@ -14,7 +14,7 @@ endblock %} {% block content %}
     <h1 class="article-title">{{ article["title"] }}</h1>
 
     {% if article["created_at"] %}
-    <p class="article-meta">{{ article["created_at"] }}</p>
+    <p class="article-meta">{{ article["created_at"] | nice_date }}</p>
     {% endif %}
   </header>
 
