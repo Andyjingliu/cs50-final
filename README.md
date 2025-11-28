@@ -199,12 +199,17 @@ Technologies Used
 2. **Create and activate a virtual environment**
    **macOS / Linux:**
 
+   ```bash
    python3 -m venv venv
    source venv/bin/activate
+   ```
 
    **Windows (PowerShell):**
 
-macOS / Linux:
+   ```bash
+   python -m venv venv
+   venv\Scripts\Activate.ps1
+   ```
 
 Future Improvements
 
