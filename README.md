@@ -55,7 +55,7 @@ project/
 
 I implemented a full article workflow:
 
-Create a new article
+**Create a new article**
 
 - Title, summary (auto-summary fallback), body (Markdown), image path
 - Markdown is rendered on the front-end using markdown2
@@ -63,20 +63,20 @@ Create a new article
 - Duplicate slugs handled automatically (slug-1, slug-2, etc.)
 - Timestamp is generated using datetime.utcnow()
 
-Edit existing articles
+**Edit existing articles**
 
 - Full editing UI using a consistent admin form layout
 - Dynamic loading of article content
 - Updates apply instantly
 
-Article detail page
+**Article detail page**
 
 - Hero image (optional)
 - Beautiful typography (headings, code blocks, blockquotes)
 - Responsive layout
 - Metadata with timestamps
 
-Article list page
+**Article list page**
 
 - Card-based layout showing title, summary, thumbnail, and timestamp
 - Fully responsive
@@ -87,7 +87,7 @@ Article list page
 Originally, the hero and about sections were hard-coded.
 I refactored them into a new database table:
 
-homepage_content fields:
+**homepage_content fields:**
 
 - id (always 1)
 - hero_title
@@ -107,7 +107,7 @@ The homepage now dynamically loads all content from the database, including:
 - About section title
 - About section body
 - Latest 4 articles
-- Latest YouTube videos
+- Latest 4 YouTube videos
 
 ### 3. Videos Page + YouTube Thumbnails
 
@@ -174,7 +174,7 @@ I put a significant amount of effort into making the project look polished:
 
 The final result is visually cohesive and surprisingly close to a production site.
 
-Technologies Used
+**Technologies Used**
 
 - Python / Flask (routing, sessions, rendering, backend logic)
 - SQLite (database storage)
