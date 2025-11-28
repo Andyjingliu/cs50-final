@@ -200,11 +200,15 @@ This CMS is a foundation I plan to grow. Features I may add:
 • Tag system
 • Dark mode toggle
 • Better admin editor (rich text / WYSIWYG)
+
 Helper function improvements I may add:
 • auto_summary: In rare edge cases (<1%), it may drop a word when punctuation follows the cutoff; refining boundary detection would fix this.
 • slugify: Apostrophes inside words currently split terms like "China’s" → "china-s"; treating apostrophes as letters would improve slug quality.
 • generate_unique_slug: The linear collision approach works now but could be upgraded to an optimistic concurrency method for better scalability.
 • Article creation flow: Slug generation and insertion occur in separate steps; an atomic "create article with unique slug" helper would avoid race conditions.
+
+Homepage Table Robustness (Iron-Clad Design)
+• Single-row protection: The homepage_content table can be strengthened by adding a constraint such as CHECK (id = 1) so that only one record can ever exist. This prevents accidental duplicate rows and guarantees the homepage always reads the correct data.
 
 Conclusion
 
