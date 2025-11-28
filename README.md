@@ -186,22 +186,25 @@ Technologies Used
 - Git + GitHub Desktop (version control)
 - Virtual environment for dependency management
 
-How to Run the Project
+## How to Run the Project
 
-1. Clone repository
+1. **Clone the repository**
+
+   ```bash
    git clone https://github.com/Andyjingliu/cs50-final
-   cd project
+   cd cs50-final
 
-2. Create and activate a virtual environment
+   ```
+
+2. **Create and activate a virtual environment**
+   **macOS / Linux:**
+
    python3 -m venv venv
-   source venv/bin/activate # macOS
+   source venv/bin/activate
 
-3. Install dependencies
-   pip install -r requirements.txt
+   **Windows (PowerShell):**
 
-4. Run the Flask app
-   python app.py
-   Visit: http://127.0.0.1:5000/
+macOS / Linux:
 
 Future Improvements
 
