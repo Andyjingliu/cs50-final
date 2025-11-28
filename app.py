@@ -121,9 +121,15 @@ def nice_date(value):
 
 @app.route("/")
 def homepage():
+    """
+    Homepage route.
+    """
+    # Open a database connection. It will be closed automatically
+    # when we exit this 'with' block.
     with get_db_connection() as conn:
 
-        # Load hero + about content (single row, id = 1)
+        # Load the single homepage content row (hero + about section).
+        # We assume homepage_content has exactly one row with id = 1.
         home_content = conn.execute(
             """
             SELECT hero_title,
@@ -136,18 +142,23 @@ def homepage():
             """
         ).fetchone()
 
-        # Load latest 4 articles
+        # Load the 4 newest articles to show in the "Latest Articles" section.
+        # ORDER BY created_at DESC ensures that the most recently created
+        # articles appear first.
         articles = conn.execute(
             "SELECT * FROM articles ORDER BY created_at DESC LIMIT 4"
         ).fetchall()
 
-        # Load latest 4 videos
+        # Load the 4 most recent videos for the "Latest Videos" section.
         videos = conn.execute(
             "SELECT * FROM videos ORDER BY id DESC LIMIT 4"
         ).fetchall()
 
-    # ← automatic close happens right here
+    # At this point, the database connection is closed, but we still have
+    # the data in memory (home_content, articles, videos).
 
+    # Render the homepage template with all the data needed to display
+    # the hero section, about section, latest articles, and latest videos.
     return render_template(
         "homepage.html",
         home_content=home_content,
