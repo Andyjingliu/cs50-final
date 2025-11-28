@@ -528,8 +528,12 @@ def edit_article(article_id):
 @app.errorhandler(404)
 def page_not_found(error):
     """
-    Triggered automatically when a user visits a route
-    that does not exist in the application.
+    Handles all 404 Not Found errors.
+    This function is triggered in two cases:
+    1) When a user requests a URL that does not match any route.
+    2) When a route exists but the code explicitly calls abort(404),
+       usually because a database record or resource was not found.
+    It returns a custom 404 page along with the correct HTTP status code.
     """
     # Render custom 404 template and return the correct status code
     return render_template("404.html"), 404
