@@ -2,11 +2,11 @@
 
 A Custom CMS + Bilingual Commentary Website (Flask, SQLite, Markdown)
 
-Overview
+## Overview
 
 For my CS50 final project, I designed and built a fully custom CMS (Content Management System) and website using Flask, SQLite, Markdown, HTML/CSS, and a small layer of JavaScript. The site serves as a platform for my long-form analysis, news commentary, and videos connected to my YouTube channel. I also integrated a dynamic video section connected to my YouTube channel.
 
-The project includes:
+## The project includes:
 
 - A public-facing homepage with dynamic hero + about sections
 - A custom article publishing workflow (create, edit, display)
@@ -49,9 +49,9 @@ project/
     └── 404.html
 ```
 
-Main Features
+## Main Features
 
-1. CMS for Article Publishing
+### 1. CMS for Article Publishing
 
 I implemented a full article workflow:
 
@@ -82,7 +82,7 @@ Article list page
 - Fully responsive
 - Clean typography
 
-2. Homepage with Editable Content
+### 2. Homepage with Editable Content
 
 Originally, the hero and about sections were hard-coded.
 I refactored them into a new database table:
@@ -109,7 +109,7 @@ The homepage now dynamically loads all content from the database, including:
 - Latest 4 articles
 - Latest YouTube videos
 
-3. Videos Page + YouTube Thumbnails
+### 3. Videos Page + YouTube Thumbnails
 
 The videos page pulls a list of YouTube video IDs from the database.
 
@@ -130,7 +130,7 @@ I also implemented a YouTube thumbnail → iframe swapper using script.js:
 
 This greatly improves performance and user experience.
 
-4. Admin Dashboard
+### 4. Admin Dashboard
 
 I created a simple admin dashboard to unify all back-end actions:
 /admin
@@ -143,7 +143,7 @@ Buttons link to:
 
 This creates a cleaner workflow and helps prepare the project for future expansion.
 
-5. Custom 404 Page
+### 5. Custom 404 Page
 
 I implemented a custom error handler:
 
@@ -158,7 +158,7 @@ The 404 page includes:
 - Link back to the homepage
 - Clean professional typography
 
-6. Visual and UX Polish
+### 6. Visual and UX Polish
 
 I put a significant amount of effort into making the project look polished:
 
@@ -188,71 +188,71 @@ Technologies Used
 
 ## How to Run the Project
 
-1. **Clone the repository**
+### 1. Clone the repository
 
-   ```bash
-   git clone https://github.com/Andyjingliu/cs50-final
-   cd cs50-final
+```bash
+git clone https://github.com/Andyjingliu/cs50-final
+cd cs50-final
 
-   ```
+```
 
-2. **Create and activate a virtual environment**
+### 2. Create and activate a virtual environment
 
-   - **macOS / Linux:**
+- **macOS / Linux:**
 
-   ```bash
-   python3 -m venv venv
-   source venv/bin/activate
-   ```
+```bash
+python3 -m venv venv
+source venv/bin/activate
+```
 
-   - **Windows (PowerShell):**
+- **Windows (PowerShell):**
 
-   ```bash
-   python -m venv venv
-   venv\Scripts\Activate.ps1
-   ```
+```bash
+python -m venv venv
+venv\Scripts\Activate.ps1
+```
 
-3. **Install dependencies**
+### 3. Install dependencies
 
-   ```bash
-   pip install -r requirements.txt
-   ```
+```bash
+pip install -r requirements.txt
+```
 
-4. **Run the application**
+### 4. Run the application
 
-   **Option A — Run with Python:**
+**Option A — Run with Python:**
 
-   ```bash
-   python app.py
-   ```
+```bash
+python app.py
+```
 
-   **Option B — Run with Flask:**
+**Option B — Run with Flask:**
 
-   - **On macOS / Linux:**
+- **On macOS / Linux:**
 
-   ```bash
-   export FLASK_APP=app.py
-   export FLASK_ENV=development  # optional for auto-reload
-   flask run
-   ```
+```bash
+export FLASK_APP=app.py
+export FLASK_ENV=development  # optional for auto-reload
+flask run
+```
 
-   - **On Windows (PowerShell):**
+- **On Windows (PowerShell):**
 
-   ```bash
-   $env:FLASK_APP = "app.py"
-   $env:FLASK_ENV = "development"  # optional for auto-reload
-   flask run
-   ```
+```bash
+$env:FLASK_APP = "app.py"
+$env:FLASK_ENV = "development"  # optional for auto-reload
+flask run
+```
 
-5. **Open your browser and visit:**
+### 5. Open your browser and visit:
 
-   ```bash
-   http://127.0.0.1:5000/
-   ```
+```bash
+http://127.0.0.1:5000/
+```
 
-Future Improvements
+## Future Improvements
 
-This CMS is a foundation I plan to grow. Features I may add:
+### This CMS is a foundation I plan to grow. Features I may add:
 
 - Image upload
 - Pagination for articles
@@ -261,18 +261,18 @@ This CMS is a foundation I plan to grow. Features I may add:
 - Dark mode toggle
 - Better admin editor (rich text / WYSIWYG)
 
-Helper function improvements I may add:
+### Helper function improvements I may add:
 
 - auto_summary: In rare edge cases (<1%), it may drop a word when punctuation follows the cutoff; refining boundary detection would fix this.
 - slugify: Apostrophes inside words currently split terms like "China’s" → "china-s"; treating apostrophes as letters would improve slug quality.
 - generate_unique_slug: The linear collision approach works now but could be upgraded to an optimistic concurrency method for better scalability.
 - Article creation flow: Slug generation and insertion occur in separate steps; an atomic "create article with unique slug" helper would avoid race conditions.
 
-Homepage Table Robustness (Iron-Clad Design)
+### Homepage Table Robustness (Iron-Clad Design)
 
 - Single-row protection: The homepage_content table can be strengthened by adding a constraint such as CHECK (id = 1) so that only one record can ever exist. This prevents accidental duplicate rows and guarantees the homepage always reads the correct data.
 
-Conclusion
+## Conclusion
 
 This project is the single most ambitious coding project I’ve done so far. I treated it as a real product — not a classroom exercise — and this helped me understand Flask, SQL, routing, design patterns, CSS organization, and overall full-stack architecture at a much deeper level.
 
