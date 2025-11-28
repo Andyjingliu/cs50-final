@@ -228,7 +228,7 @@ Technologies Used
 
    **Option B — Run with Flask:**
 
-   - On macOS / Linux:
+   - **On macOS / Linux:**
 
    ```bash
    export FLASK_APP=app.py
@@ -236,7 +236,7 @@ Technologies Used
    flask run
    ```
 
-   - On Windows (PowerShell):
+   - **On Windows (PowerShell):**
 
    ```bash
    $env:FLASK_APP = "app.py"
