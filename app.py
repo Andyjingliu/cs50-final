@@ -18,11 +18,6 @@ import string
 def auto_summary(text: str, max_chars: int = 200) -> str:
     """
     Return a shortened, clean summary without breaking words.
-    - Normalizes whitespace
-    - Cuts at max_chars
-    - Backs up to the nearest space if the cut is mid-word
-    - Strips trailing punctuation
-    - Appends "..." if truncated
     """
     # 1. Normalize whitespace (handles \n, \t, and double spaces)
     clean = " ".join(text.split())
@@ -67,6 +62,9 @@ def get_db_connection():
 
 
 def slugify(text: str) -> str:
+    """
+    Convert a string into a URL-friendly slug.
+    """
     # 1. Normalize Unicode characters (e.g., convert 'é' to 'e')
     text = unicodedata.normalize("NFKD", text)
     text = text.encode("ascii", "ignore").decode("ascii")
