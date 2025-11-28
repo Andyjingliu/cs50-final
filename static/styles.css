@@ -461,8 +461,10 @@ footer {
 
 .article-meta {
   font-size: 0.85rem;
-  color: #6b7280;
-  margin-bottom: 0.35rem;
+  color: #6b7280; /* Tailwind's gray-500 equivalent */
+  margin-top: 4px;
+  margin-bottom: 8px;
+  display: block;
 }
 
 .article-summary {
@@ -507,8 +509,11 @@ footer {
 }
 
 .article-meta {
-  font-size: 0.9rem;
-  color: #6b7280; /* gray */
+  font-size: 0.85rem;
+  color: #6b7280; /* Tailwind's gray-500 equivalent */
+  margin-top: 4px;
+  margin-bottom: 8px;
+  display: block;
 }
 
 /* Article body text */
