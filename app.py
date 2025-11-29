@@ -556,5 +556,21 @@ def page_not_found(error):
     return render_template("404.html"), 404
 
 
+@app.errorhandler(500)
+def internal_server_error(error):
+    """
+    Custom handler for HTTP 500 errors (Internal Server Error).
+    This runs whenever:
+    - Flask encounters an unexpected exception, OR
+    - I explicitly call abort(500) in my code.
+    It lets the app return a clean, user-friendly error page
+    instead of Flask's default debug-style 500 page.
+    """
+    # Render a custom template for internal errors.
+    # The ", 500" ensures the browser receives the correct HTTP status code
+    # (important for SEO, caching, and client behavior).
+    return render_template("500.html"), 500
+
+
 if __name__ == "__main__":
     app.run(debug=True)
