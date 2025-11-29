@@ -129,7 +129,7 @@ def homepage():
     """
     # Open a database connection. It will be closed automatically
     # when we exit this 'with' block.
-    with get_db_connection() as conn:
+    with closing(get_db_connection()) as conn:
 
         # Load the single homepage content row (hero + about section).
         # We assume homepage_content has exactly one row with id = 1.
@@ -174,7 +174,7 @@ def homepage():
 def articles():
     # Open a database connection using a context manager.
     # The connection will automatically close after the block finishes.
-    with get_db_connection() as conn:
+    with closing(get_db_connection()) as conn:
 
         # Query the database for all articles, retrieving only the columns
         # needed for the articles list page. We order by created_at so
@@ -205,7 +205,7 @@ def articles():
 def article_detail(slug):
     # Open a database connection using a context manager.
     # The connection will automatically close when the block ends.
-    with get_db_connection() as conn:
+    with closing(get_db_connection()) as conn:
 
         # Fetch the article whose slug matches the one from the URL.
         # fetchone() is used because we expect exactly one article.
@@ -233,7 +233,7 @@ def article_detail(slug):
 def videos():
     # Open a database connection. The connection will automatically close
     # once we exit the 'with' block below.
-    with get_db_connection() as conn:
+    with closing(get_db_connection()) as conn:
 
         # Retrieve all videos from the database, ordered by newest first.
         # fetchall() is correct here because we expect multiple rows.
@@ -251,7 +251,7 @@ def videos():
 def admin_dashboard():
     # Open a database connection. It will automatically close
     # once the 'with' block finishes, even if an error occurs.
-    with get_db_connection() as conn:
+    with closing(get_db_connection()) as conn:
 
         # Fetch the 5 most recent articles for quick editing access.
         articles = conn.execute(
@@ -291,7 +291,7 @@ def admin_homepage():
 
     # Open the database connection.
     # It will automatically close when we exit this 'with' block.
-    with get_db_connection() as conn:
+    with closing(get_db_connection()) as conn:
 
         # --- PHASE 1: Handle Form Submission (POST) ---
         if request.method == "POST":
@@ -328,7 +328,7 @@ def admin_homepage():
                         about_body,
                     ),
                 )
-                # 🚨 IMPORTANT: Save the changes!
+                # Save the changes.
                 conn.commit()
 
                 # Post/Redirect/Get Pattern:
