@@ -282,77 +282,81 @@ def admin_dashboard():
 
 @app.route("/admin/homepage", methods=["GET", "POST"])
 def admin_homepage():
-    conn = get_db_connection()
+    # Initialize error as None. It will stay None if this is a GET request
+    # or if a POST request succeeds.
+    error = None
 
-    if request.method == "POST":
-        # 1) Read form fields (names must match HTML)
-        hero_title = request.form.get("hero_title", "").strip()
-        hero_subtitle = request.form.get("hero_subtitle", "").strip()
-        hero_image_path = request.form.get("hero_image_path", "").strip()
-        about_title = request.form.get("about_title", "").strip()
-        about_body = request.form.get("about_body", "").strip()
+    # Open the database connection.
+    # It will automatically close when we exit this 'with' block.
+    with get_db_connection() as conn:
 
-        # 2) Basic validation (make About body optional if you want)
-        error = None
-        if not hero_title or not hero_subtitle or not about_title:
-            error = "Hero title, hero subtitle, and about title are required."
+        # --- PHASE 1: Handle Form Submission (POST) ---
+        if request.method == "POST":
+            # 1. Read and clean form fields
+            # We use .strip() to remove accidental whitespace at start/end
+            hero_title = request.form.get("hero_title", "").strip()
+            hero_subtitle = request.form.get("hero_subtitle", "").strip()
+            hero_image_path = request.form.get("hero_image_path", "").strip()
+            about_title = request.form.get("about_title", "").strip()
+            about_body = request.form.get("about_body", "").strip()
 
-        if error:
-            homepage = conn.execute(
-                """
-                SELECT hero_title,
-                       hero_subtitle,
-                       hero_image_path,
-                       about_title,
-                       about_body
-                FROM homepage_content
-                WHERE id = 1
-                """
-            ).fetchone()
-            conn.close()
-            return render_template(
-                "admin_homepage.html",
-                homepage=homepage,
-                error=error,
-            )
+            # 2. Validation
+            # If mandatory fields are empty, set the error message.
+            if not hero_title or not hero_subtitle or not about_title:
+                error = "Hero title, hero subtitle, and about title are required."
 
-        # 3) Update DB
-        conn.execute(
+            # 3. Update Database (Only if no error)
+            else:
+                conn.execute(
+                    """
+                    UPDATE homepage_content
+                    SET hero_title = ?,
+                        hero_subtitle = ?,
+                        hero_image_path = ?,
+                        about_title = ?,
+                        about_body = ?
+                    WHERE id = 1
+                    """,
+                    (
+                        hero_title,
+                        hero_subtitle,
+                        hero_image_path,
+                        about_title,
+                        about_body,
+                    ),
+                )
+                # 🚨 IMPORTANT: Save the changes!
+                conn.commit()
+
+                # Post/Redirect/Get Pattern:
+                # After a successful POST, redirect the user back to the same page.
+                # This prevents the browser from resubmitting the form if the user hits "Refresh".
+                return redirect(url_for("homepage"))
+
+        # --- PHASE 2: Fetch Data for Display (GET or Failed POST) ---
+        # If we are here, it means either:
+        # A) It's a normal GET request (user just arrived).
+        # B) It was a POST request but had an error (we need to show the form again).
+
+        homepage = conn.execute(
             """
-            UPDATE homepage_content
-            SET hero_title = ?,
-                hero_subtitle = ?,
-                hero_image_path = ?,
-                about_title = ?,
-                about_body = ?
+            SELECT hero_title,
+                   hero_subtitle,
+                   hero_image_path,
+                   about_title,
+                   about_body
+            FROM homepage_content
             WHERE id = 1
-            """,
-            (hero_title, hero_subtitle, hero_image_path, about_title, about_body),
-        )
-        conn.commit()
-        conn.close()
+            """
+        ).fetchone()
 
-        # 4) Go back to homepage to see the changes
-        return redirect(url_for("homepage"))
+    # Exit 'with' block -> Connection closes automatically here.
 
-    # GET request — load existing data
-    homepage = conn.execute(
-        """
-        SELECT hero_title,
-               hero_subtitle,
-               hero_image_path,
-               about_title,
-               about_body
-        FROM homepage_content
-        WHERE id = 1
-        """
-    ).fetchone()
-    conn.close()
-
+    # Render the template, passing the current DB data and any error message.
     return render_template(
         "admin_homepage.html",
         homepage=homepage,
-        error=None,
+        error=error,
     )
 
 
