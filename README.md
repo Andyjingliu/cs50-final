@@ -47,6 +47,7 @@ project/
     ├── admin_edit_article.html
     ├── admin_homepage.html
     └── 404.html
+    └── 500.html
 ```
 
 ## Main Features
