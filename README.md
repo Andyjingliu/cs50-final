@@ -16,6 +16,7 @@ For my CS50 final project, I designed and built a fully custom CMS (Content Mana
 - A video page with embedded YouTube videos & thumbnails
 - A polished admin panel with multiple tools
 - A custom 404 page
+- A custom 500 page
 - A responsive layout for desktop and mobile
 - A favicon
 - Clean and unified global styling
@@ -148,9 +149,11 @@ This creates a cleaner workflow and helps prepare the project for future expansi
 
 I implemented a custom error handler:
 
+```
 @app.errorhandler(404)
-def page_not_found(e):
+def page_not_found(error):
 return render_template("404.html"), 404
+```
 
 The 404 page includes:
 
@@ -159,7 +162,22 @@ The 404 page includes:
 - Link back to the homepage
 - Clean professional typography
 
-### 6. Visual and UX Polish
+### 6. Custom 500 Page
+
+I implemented a custom error handler:
+
+@app.errorhandler(500)
+def internal_server_error(error):
+return render_template("500.html"), 500
+
+The 500 page includes:
+
+- Centered layout
+- Clear message
+- Link back to the homepage
+- Clean professional typography
+
+### 7. Visual and UX Polish
 
 I put a significant amount of effort into making the project look polished:
 
