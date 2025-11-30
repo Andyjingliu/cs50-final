@@ -470,99 +470,109 @@ def delete_article(article_id: int):
 
 @app.route("/admin/articles/<int:article_id>/edit", methods=["GET", "POST"])
 def edit_article(article_id):
-    conn = get_db_connection()
-    conn.row_factory = sqlite3.Row
+    # Open connection ONCE using the context manager
+    # It will auto-close when the indentation block ends
+    with closing(get_db_connection()) as conn:
 
-    # Load existing article
-    article = conn.execute(
-        "SELECT * FROM articles WHERE id = ?",
-        (article_id,),
-    ).fetchone()
-
-    if article is None:
-        conn.close()
-        abort(404)
-
-    if request.method == "POST":
-        title = (request.form.get("title") or "").strip()
-        summary = (request.form.get("summary") or "").strip()
-        body = (request.form.get("body") or "").strip()
-        image_path = (request.form.get("image_path") or "").strip()
-
-        # Basic validation
-        if not title or not body:
-            error = "Title and body are required."
-
-            conn.close()
-            return render_template(
-                "admin_edit_article.html",
-                error=error,
-                form={
-                    "title": title,
-                    "summary": summary,
-                    "body": body,
-                    "image_path": image_path,
-                },
-                article=article,
-            )
-
-        # New slug from title
-        slug = slugify(title)
-
-        # Check slug uniqueness, excluding this article itself
-        existing = conn.execute(
-            "SELECT id FROM articles WHERE slug = ? AND id != ?",
-            (slug, article_id),
+        # 1. Fetch the existing article first
+        article = conn.execute(
+            "SELECT * FROM articles WHERE id = ?", (article_id,)
         ).fetchone()
 
-        if existing:
-            error = "Another article already uses this title. Please choose a different title."
-            conn.close()
-            return render_template(
-                "admin_edit_article.html",
-                error=error,
-                form={
-                    "title": title,
-                    "summary": summary,
-                    "body": body,
-                    "image_path": image_path,
-                },
-                article=article,
-            )
+        if article is None:
+            abort(404)  # Flask will handle the response, 'with' block closes conn
 
-        # If summary left empty, auto-generate
-        if not summary:
-            summary = auto_summary(body)
+        # ---------------------------
+        # POST: Handle the Update
+        # ---------------------------
+        if request.method == "POST":
+            # Collect data into a dictionary immediately
+            form_data = {
+                "title": (request.form.get("title") or "").strip(),
+                "summary": (request.form.get("summary") or "").strip(),
+                "body": (request.form.get("body") or "").strip(),
+                "image_path": (request.form.get("image_path") or "").strip(),
+            }
 
-        # UPDATE instead of INSERT
-        conn.execute(
-            """
-            UPDATE articles
-            SET title = ?, slug = ?, summary = ?, body = ?, image_path = ?
-            WHERE id = ?
-            """,
-            (title, slug, summary, body, image_path, article_id),
+            # Validation
+            if not form_data["title"] or not form_data["body"]:
+                return render_template(
+                    "admin_edit_article.html",
+                    error="Title and body are required.",
+                    form=form_data,
+                    article=article,  # Pass original article for ID reference if needed
+                )
+
+            try:
+                # Generate Slug
+                slug = slugify(form_data["title"])
+
+                # Check Uniqueness (Excluding CURRENT article ID)
+                existing = conn.execute(
+                    "SELECT id FROM articles WHERE slug = ? AND id != ?",
+                    (slug, article_id),
+                ).fetchone()
+
+                if existing:
+                    return render_template(
+                        "admin_edit_article.html",
+                        error="Another article already uses this title.",
+                        form=form_data,
+                        article=article,
+                    )
+
+                # Auto-Summary
+                if not form_data["summary"]:
+                    form_data["summary"] = auto_summary(form_data["body"])
+
+                # Execute Update
+                conn.execute(
+                    """
+                    UPDATE articles
+                    SET title = ?, slug = ?, summary = ?, body = ?, image_path = ?
+                    WHERE id = ?
+                    """,
+                    (
+                        form_data["title"],
+                        slug,
+                        form_data["summary"],
+                        form_data["body"],
+                        form_data["image_path"],
+                        article_id,
+                    ),
+                )
+                conn.commit()
+
+                # Success Redirect
+                return redirect(url_for("article_detail", slug=slug))
+
+            except sqlite3.Error as e:
+                print(f"Database Error: {e}")
+                return render_template(
+                    "admin_edit_article.html",
+                    error="An error occurred updating the article.",
+                    form=form_data,
+                    article=article,
+                )
+
+        # ---------------------------
+        # GET: Show the form
+        # ---------------------------
+        # Convert the sqlite3.Row object to a standard Python dictionary
+        # This acts as our "form_data" for the GET request
+        form_data = {
+            "title": article["title"],
+            "summary": article["summary"] or "",  # Handle None from DB
+            "body": article["body"],
+            "image_path": article["image_path"] or "",
+        }
+
+        return render_template(
+            "admin_edit_article.html",
+            error=None,
+            form=form_data,
+            article=article,
         )
-        conn.commit()
-        conn.close()
-
-        # Redirect to detail page
-        return redirect(url_for("article_detail", slug=slug))
-
-    # GET request → show form prefilled with existing article
-    form = {
-        "title": article["title"],
-        "summary": article["summary"] or "",
-        "body": article["body"],
-        "image_path": article["image_path"] or "",
-    }
-    conn.close()
-    return render_template(
-        "admin_edit_article.html",
-        error=None,
-        form=form,
-        article=article,
-    )
 
 
 # Register a custom handler for HTTP 404 errors (page not found)
