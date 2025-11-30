@@ -366,53 +366,66 @@ def admin_homepage():
 @app.route("/admin/new-article", methods=["GET", "POST"])
 def new_article():
     if request.method == "POST":
-        title = (request.form.get("title") or "").strip()
-        summary = (request.form.get("summary") or "").strip()
-        body = (request.form.get("body") or "").strip()
-        image_path = (request.form.get("image_path") or "").strip()
+        # 1. Collect Data
+        form_data = {
+            "title": (request.form.get("title") or "").strip(),
+            "summary": (request.form.get("summary") or "").strip(),
+            "body": (request.form.get("body") or "").strip(),
+            "image_path": (request.form.get("image_path") or "").strip(),
+        }
 
-        # Basic validation
-        if not title or not body:
-            error = "Title and body are required."
+        # 2. Validation
+        if not form_data["title"] or not form_data["body"]:
             return render_template(
                 "admin_new_article.html",
-                error=error,
-                mode="new",
+                error="Title and body are required.",
                 submit_label="Publish Article",
-                form={
-                    "title": title,
-                    "summary": summary,
-                    "body": body,
-                    "image_path": image_path,
-                },
+                form=form_data,
             )
 
-        # Open DB before generating slug
-        conn = get_db_connection()
+        # 3. Database Operation with 'closing' context manager
+        # Using 'closing()' ensures conn.close() happens automatically
+        # regardless of success or error.
+        try:
+            with closing(get_db_connection()) as conn:
+                # Generate unique slug
+                slug = generate_unique_slug(form_data["title"], conn)
 
-        # Generate unique slug using the DB
-        slug = generate_unique_slug(title, conn)
+                # Auto-summary
+                if not form_data["summary"]:
+                    form_data["summary"] = auto_summary(form_data["body"])
 
-        # Auto summary if empty
-        if not summary:
-            summary = auto_summary(body)
+                # Insert
+                conn.execute(
+                    """
+                    INSERT INTO articles (title, slug, summary, body, image_path)
+                    VALUES (?, ?, ?, ?, ?)
+                    """,
+                    (
+                        form_data["title"],
+                        slug,
+                        form_data["summary"],
+                        form_data["body"],
+                        form_data["image_path"],
+                    ),
+                )
+                conn.commit()
 
-        # Insert into DB
-        conn = get_db_connection()
-        conn.execute(
-            """
-            INSERT INTO articles (title, slug, summary, body, image_path)
-            VALUES (?, ?, ?, ?, ?)
-            """,
-            (title, slug, summary, body, image_path),
-        )
-        conn.commit()
-        conn.close()
+            # Redirect only after connection is safely closed
+            return redirect(url_for("article_detail", slug=slug))
 
-        # Redirect to new article
-        return redirect(url_for("article_detail", slug=slug))
+        except sqlite3.Error as e:
+            print(f"Database error: {e}")
+            return render_template(
+                "admin_new_article.html",
+                error="An error occurred saving the article.",
+                mode="new",
+                submit_label="Publish Article",
+                form=form_data,
+            )
 
-    # GET → show empty form
+    # GET Request
+    # Explicitly defining keys is safer than an empty dict
     return render_template(
         "admin_new_article.html",
         error=None,
