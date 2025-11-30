@@ -430,44 +430,6 @@ def new_article():
     )
 
 
-@app.route("/admin/articles/<int:article_id>/delete", methods=["POST"])
-def delete_article(article_id: int):
-    """
-    Handle POST request to delete a specific article by ID from the admin dashboard.
-    - Tries to delete the row in a single DELETE statement (no extra SELECT).
-    - Uses cursor.rowcount to determine whether anything was actually deleted.
-    - On DB failure, returns a 500 error via the global error handler.
-    """
-    try:
-        # Open a DB connection for this request.
-        # The connection will be closed automatically when we leave the 'with' block.
-        with closing(get_db_connection()) as conn:
-            # Delete the article in one step. If the ID doesn't exist, this affects 0 rows.
-            cursor = conn.execute(
-                "DELETE FROM articles WHERE id = ?",
-                (article_id,),
-            )
-            # Persist the change to disk.
-            conn.commit()
-
-    except Exception as e:
-        # In a real app, you'd use app.logger.error(...) instead of print.
-        print(f"Database error while deleting article {article_id}: {e}")
-        # Let the 500 error handler render a friendly error page.
-        abort(500, description="An error occurred while trying to delete the article.")
-
-    # Check how many rows the DELETE actually touched.
-    if cursor.rowcount == 0:
-        # No matching article ID in the database.
-        flash("Article not found.", "error")
-    else:
-        # At least one row was deleted (normally exactly 1).
-        flash("Article deleted successfully.", "success")
-
-    # Always send the admin back to the dashboard after the operation.
-    return redirect(url_for("admin_dashboard"))
-
-
 @app.route("/admin/articles/<int:article_id>/edit", methods=["GET", "POST"])
 def edit_article(article_id):
     # Open connection ONCE using the context manager
@@ -573,6 +535,44 @@ def edit_article(article_id):
             form=form_data,
             article=article,
         )
+
+
+@app.route("/admin/articles/<int:article_id>/delete", methods=["POST"])
+def delete_article(article_id: int):
+    """
+    Handle POST request to delete a specific article by ID from the admin dashboard.
+    - Tries to delete the row in a single DELETE statement (no extra SELECT).
+    - Uses cursor.rowcount to determine whether anything was actually deleted.
+    - On DB failure, returns a 500 error via the global error handler.
+    """
+    try:
+        # Open a DB connection for this request.
+        # The connection will be closed automatically when we leave the 'with' block.
+        with closing(get_db_connection()) as conn:
+            # Delete the article in one step. If the ID doesn't exist, this affects 0 rows.
+            cursor = conn.execute(
+                "DELETE FROM articles WHERE id = ?",
+                (article_id,),
+            )
+            # Persist the change to disk.
+            conn.commit()
+
+    except Exception as e:
+        # In a real app, you'd use app.logger.error(...) instead of print.
+        print(f"Database error while deleting article {article_id}: {e}")
+        # Let the 500 error handler render a friendly error page.
+        abort(500, description="An error occurred while trying to delete the article.")
+
+    # Check how many rows the DELETE actually touched.
+    if cursor.rowcount == 0:
+        # No matching article ID in the database.
+        flash("Article not found.", "error")
+    else:
+        # At least one row was deleted (normally exactly 1).
+        flash("Article deleted successfully.", "success")
+
+    # Always send the admin back to the dashboard after the operation.
+    return redirect(url_for("admin_dashboard"))
 
 
 # Register a custom handler for HTTP 404 errors (page not found)
