@@ -136,6 +136,34 @@ a:hover {
   background: #1d4ed8;
 }
 
+/* ===== Global Alerts (Flash Messages) ===== */
+.flash-messages {
+  margin-bottom: 24px;
+}
+
+.alert {
+  padding: 0.85rem 1.25rem;
+  border-radius: 12px; /* Matches your other border-radius choices */
+  font-weight: 500;
+  font-size: 0.95rem;
+  margin-bottom: 0.75rem;
+  border: 1px solid transparent;
+}
+
+/* Success (Green) */
+.alert-success {
+  background: #dcfce7; /* Soft pastel green */
+  color: #166534; /* Dark green text */
+  border-color: #bbf7d0;
+}
+
+/* Error (Red - Matches your existing .error-message style) */
+.alert-error {
+  background: #fee2e2; /* Soft pastel red */
+  color: #b91c1c; /* Dark red text */
+  border-color: #fecaca;
+}
+
 /* Small section headings inside admin forms */
 .form-section-heading {
   margin-top: 1.5rem;
