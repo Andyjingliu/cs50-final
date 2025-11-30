@@ -1,9 +1,8 @@
 {% extends "base.html" %} {% block title %}New Article · Admin{% endblock %} {%
-block content %} {% if mode == "edit" %}
-<h1>Edit Article</h1>
-{% else %}
+block content %}
 <h1>New Article</h1>
-{% endif %} {% if error %}
+
+{% if error %}
 <div class="error-message">{{ error }}</div>
 {% endif %}
 
@@ -31,6 +30,6 @@ block content %} {% if mode == "edit" %}
     value="{{ form.image_path }}"
   />
 
-  <button type="submit" class="btn">{{ submit_label }}</button>
+  <button type="submit" class="btn">Publish Article</button>
 </form>
 {% endblock %}
