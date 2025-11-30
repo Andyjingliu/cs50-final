@@ -419,7 +419,6 @@ def new_article():
             return render_template(
                 "admin_new_article.html",
                 error="An error occurred saving the article.",
-                mode="new",
                 submit_label="Publish Article",
                 form=form_data,
             )
@@ -429,7 +428,6 @@ def new_article():
     return render_template(
         "admin_new_article.html",
         error=None,
-        mode="new",
         submit_label="Publish Article",
         form={"title": "", "summary": "", "body": "", "image_path": ""},
     )
