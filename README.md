@@ -281,6 +281,7 @@ http://127.0.0.1:5000/
 - Tag system
 - Dark mode toggle
 - Better admin editor (rich text / WYSIWYG)
+- authentication
 
 ### Helper function improvements I may add:
 
