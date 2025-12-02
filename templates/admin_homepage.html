@@ -1,6 +1,7 @@
-{% extends "base.html" %} {% block content %}
+{% extends "base.html" %} 
+{% block content %}
 
-<main class="container">
+<div class="container">
   <h1>Edit Homepage Content</h1>
 
   <form method="post" class="article-form">
@@ -45,11 +46,9 @@
     />
 
     <label for="about_body">About section text</label>
-    <textarea id="about_body" name="about_body" rows="4">
-{{ homepage.about_body or '' }}</textarea
-    >
+    <textarea id="about_body" name="about_body" rows="4">{{ homepage.about_body or '' }}</textarea>
 
     <button type="submit" class="btn">Save homepage content</button>
   </form>
-</main>
+</div>
 {% endblock %}

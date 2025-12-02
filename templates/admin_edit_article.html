@@ -1,5 +1,7 @@
-{% extends "base.html" %} {% block title %}Edit Article · Admin{% endblock %} {%
-block content %}
+{% extends "base.html" %} 
+{% block title %}Edit Article · Admin{% endblock %} 
+{% block content %}
+
 <div class="page">
   <h1>Edit Article</h1>
 
@@ -21,9 +23,7 @@ block content %}
     <textarea id="summary" name="summary" rows="4">{{ form.summary }}</textarea>
 
     <label for="body">Body (Markdown)</label>
-    <textarea id="body" name="body" rows="12" required>
-{{ form.body }}</textarea
-    >
+    <textarea id="body" name="body" rows="12" required>{{ form.body }}</textarea>
 
     <label for="image_path">Hero image path (e.g. images/IMG_1234.JPG)</label>
     <input
