@@ -1,5 +1,7 @@
-{% extends "base.html" %} {% block title %}Articles{% endblock %} {% block
-content %}
+{% extends "base.html" %} 
+{% block title %}Articles{% endblock %} 
+{% block content %}
+
 <h1>Articles</h1>
 
 {% if articles %}
@@ -22,7 +24,9 @@ content %}
 
       {% if article["created_at"] %}
       <p class="article-meta">{{ article["created_at"] | nice_date }}</p>
-      {% endif %} {% if article["summary"] %}
+      {% endif %} 
+      
+      {% if article["summary"] %}
       <p>{{ article["summary"] }}</p>
       {% endif %}
     </a>
@@ -31,4 +35,6 @@ content %}
 </ul>
 {% else %}
 <p>No articles yet.</p>
-{% endif %} {% endblock %}
+
+{% endif %} 
+{% endblock %}

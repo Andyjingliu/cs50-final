@@ -1,36 +1,47 @@
-{% extends "base.html" %} {% block title %}Videos · CS50 Final{% endblock %} {%
-block content %}
-<h1 class="videos-title">Videos</h1>
+{% extends "base.html" %}
+{% block title %}Videos · CS50 Final{% endblock %}
+{% block content %}
 
-{% for video in videos %}
-<article class="video-card">
-  <h2>{{ video["title"] }}</h2>
+<div class="page">
+  <h1 class="videos-title">Videos</h1>
 
-  {% if video["description"] %}
-  <p class="video-description">{{ video["description"] }}</p>
-  {% endif %}
+  {% for video in videos %}
+  <article class="video-card">
+    <h2>{{ video.title }}</h2>
 
-  <div
-    class="video-wrapper video-lazy"
-    data-youtube-id="{{ video['youtube_id'] }}"
-  >
-    <img
-      src="https://img.youtube.com/vi/{{ video['youtube_id'] }}/hqdefault.jpg"
-      alt="{{ video['title'] }}"
-      class="video-thumb"
-    />
-    <button class="video-play-button" aria-label="Play video">▶</button>
-  </div>
+    {% if video.description %}
+    <p class="video-description">{{ video.description }}</p>
+    {% endif %}
 
-  <p class="video-link">
-    <a
-      href="https://www.youtube.com/watch?v={{ video['youtube_id'] }}"
-      target="_blank"
+    <div
+      class="video-wrapper video-lazy"
+      data-youtube-id="{{ video.youtube_id }}"
     >
-      Watch on YouTube
-    </a>
-  </p>
-</article>
-{% else %}
-<p>No videos yet. Check back soon.</p>
-{% endfor %} {% endblock %}
+      <img
+        src="https://img.youtube.com/vi/{{ video.youtube_id }}/hqdefault.jpg"
+        alt="{{ video.title }}"
+        class="video-thumb"
+      />
+      <button
+        class="video-play-button"
+        aria-label="Play video"
+      >
+        ▶
+      </button>
+    </div>
+
+    <p class="video-link">
+      <a
+        href="https://www.youtube.com/watch?v={{ video.youtube_id }}"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        Watch on YouTube
+      </a>
+    </p>
+  </article>
+  {% else %}
+  <p>No videos yet. Check back soon.</p>
+  {% endfor %}
+</div>
+{% endblock %}
