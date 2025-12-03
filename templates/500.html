@@ -1,17 +1,13 @@
-{% extends "base.html" %} 
-{% block title %}Server Error · 500{% endblock %} 
+{% extends "base.html" %}
+{% block title %}Internal Server Error{% endblock %}
 {% block content %}
 
 <div class="error-page">
   <h1>⚠️ 500</h1>
   <h2>Internal Server Error</h2>
-  <p>
-    Something went wrong on our end. This isn’t your fault — the server
-    encountered an unexpected problem while processing your request.
-  </p>
+  <p>Something went wrong on our end. This isn't your fault — the server encountered an unexpected problem.</p>
 
-  <a href="{{ url_for('homepage') }}" class="error-home-link">
-    ← Back to homepage
-  </a>
+  <a href="{{ url_for('homepage') }}" class="error-home-link">← Back to homepage</a>
 </div>
+
 {% endblock %}
