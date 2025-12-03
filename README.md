@@ -293,6 +293,23 @@ http://127.0.0.1:5000/
 
 - Single-row protection: The homepage_content table can be strengthened by adding a constraint such as CHECK (id = 1) so that only one record can ever exist. This prevents accidental duplicate rows and guarantees the homepage always reads the correct data.
 
+## AI Usage Disclosure
+
+This project was built in accordance with CS50’s final project policy regarding the use of AI tools. I used AI (ChatGPT and Gemini 3 Pro) as a helper to accelerate my workflow, clarify concepts, and improve readability, but all architectural decisions, core logic, database design, routing structure, templates, and front-end implementation were written and fully understood by me.
+
+Specifically, AI assistance was used for:
+
+- Brainstorming approaches to structuring Flask routes and templates
+- Reviewing Python, SQL, and Jinja syntax questions
+- Debugging guidance during development
+- Refining code comments for clarity and consistency
+- Suggestions for CSS styling, layout organization, and UI polish
+- Assistance in drafting and refining this README
+
+The _implementation itself_ — including the CMS workflow, slug generation, database schema, Markdown integration, YouTube thumbnail loader, custom admin panel, homepage editor, and all HTML/CSS/JS — was written manually and reviewed line-by-line to ensure complete understanding.
+
+All AI involvement adhered strictly to CS50’s requirement that the “essence of the work” be my own, and any AI-assisted parts are documented here.
+
 ## Conclusion
 
 This project is the single most ambitious coding project I’ve done so far. I treated it as a real product — not a classroom exercise — and this helped me understand Flask, SQL, routing, design patterns, CSS organization, and overall full-stack architecture at a much deeper level.
