@@ -46,7 +46,7 @@ project/
     ├── article_detail.html
     ├── articles.html
     ├── base.html
-    └── homepage.html
+    ├── homepage.html
     └── videos.html
 ```
 
