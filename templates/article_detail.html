@@ -1,41 +1,33 @@
-{% extends "base.html" %} 
-{% block title %}{{ article["title"] }} - Articles
-{% endblock %} {% block content %}
+{% extends "base.html" %}
+{% block title %}{{ article.title }}{% endblock %} 
+{% block content %}
 
 <article class="article-detail">
-  {# Hero image #} {% if article["image_path"] %}
+  
+  {% if article.image_path %}
   <figure class="article-hero">
-    <img
-      src="{{ url_for('static', filename=article['image_path']) }}"
-      alt="{{ article['title'] }}"
-    />
+    <img src="{{ url_for('static', filename=article.image_path) }}"
+         alt="{{ article.title }}" />
   </figure>
   {% endif %}
 
   <header class="article-header">
-    <h1 class="article-title">{{ article["title"] }}</h1>
+    <h1 class="article-title">{{ article.title }}</h1>
 
-    {% if article["created_at"] %}
-    <p class="article-meta">{{ article["created_at"] | nice_date }}</p>
+    {% if article.created_at %}
+    <p class="article-meta">{{ article.created_at | nice_date }}</p>
     {% endif %}
   </header>
 
   <section class="article-body">
-    {# body stored as plain text; turn newlines into paragraphs #} {{ body_html
-    | safe }}
+    {{ body_html | safe }}
   </section>
 
   <nav class="article-back">
-    <a href="{{ url_for('articles') }}" class="link-quiet"
-      >&larr; Back to Articles</a
-    >
-    <!-- Simple admin edit link (for now, visible to everyone) -->
-    <a
-      href="{{ url_for('edit_article', article_id=article['id']) }}"
-      class="link-quiet"
-    >
-      Edit
-    </a>
+    <a href="{{ url_for('articles') }}" class="link-quiet">← Back to Articles</a>
+    
+    <a href="{{ url_for('edit_article', article_id=article.id) }}" class="link-quiet">Edit</a>
   </nav>
+
 </article>
 {% endblock %}

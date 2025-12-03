@@ -460,6 +460,7 @@ footer {
   display: flex;
   gap: 16px;
   background: #ffffff;
+  align-items: center; /* This fixes the "leaning" by centering the image vertically */
 }
 
 .article-image {
@@ -474,9 +475,10 @@ footer {
   flex: 1;
 }
 
-.article-title {
+/* Target the H2 directly to remove the default top margin */
+.article-content h2 {
   font-size: 1.1rem;
-  margin: 0 0 0.3rem;
+  margin: 0 0 0.3rem; /* Zeros out the top margin */
 }
 
 .article-title a {
