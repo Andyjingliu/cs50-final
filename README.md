@@ -1,6 +1,7 @@
 # Jing Liu — InsightPress
 
-A Custom CMS + Bilingual Commentary Website (Flask, SQLite, Markdown)
+- A Custom CMS + Bilingual Commentary Website (Flask, SQLite, Markdown)
+- Video Demo: https://www.youtube.com/watch?v=hs3VhGAIbiE
 
 ## Overview
 
