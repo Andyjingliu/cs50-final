@@ -31,7 +31,6 @@ project/
 ├── requirements.txt
 ├── database.db
 ├── README.md
-├── .flake8
 ├── static/
 │   ├── images/
 │   ├── styles.css
@@ -39,7 +38,7 @@ project/
 │   └── favicon.png
 └── templates/
     ├── 404.html
-    ├── 5.00
+    ├── 500.html
     ├── admin_dashboard.html
     ├── admin_edit_article.html
     ├── admin_homepage.html
