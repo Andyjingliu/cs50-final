@@ -38,17 +38,17 @@ project/
 │   ├── script.js
 │   └── favicon.png
 └── templates/
-    ├── base.html
-    ├── homepage.html
-    ├── articles.html
-    ├── article_detail.html
-    ├── videos.html
+    ├── 404.html
+    ├── 5.00
     ├── admin_dashboard.html
-    ├── admin_new_article.html
     ├── admin_edit_article.html
     ├── admin_homepage.html
-    └── 404.html
-    └── 500.html
+    ├── admin_new_article.html
+    ├── article_detail.html
+    ├── articles.html
+    ├── base.html
+    └── homepage.html
+    └── videos.html
 ```
 
 ## Main Features
