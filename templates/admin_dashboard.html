@@ -5,15 +5,12 @@
   <h1>Admin Dashboard</h1>
   <p class="link-quiet">
     <a href="{{ url_for('homepage') }}">← Back to site</a>
-  </p>
-
+  </p> 
   <section class="admin-actions">
     <h2>Quick Actions</h2>
 
     <div class="admin-actions-grid">
-      <a href="{{ url_for('admin_homepage') }}" class="btn"
-        >Edit homepage content</a
-      >
+      <a href="{{ url_for('admin_homepage') }}" class="btn">Edit homepage content</a>
 
       <a href="{{ url_for('new_article') }}" class="btn">Write new article</a>
 
@@ -42,16 +39,11 @@
         <tr>
           <td>{{ a["title"] }}</td>
           <td>
-            {% if a["created_at"] %} {{ a["created_at"] }} {% else %} — {% endif
-            %}
+            {% if a["created_at"] %} {{ a["created_at"] }} {% else %} — {% endif %}
           </td>
 
           <td class="admin-table-actions">
-            <a
-              href="{{ url_for('edit_article', article_id=a['id']) }}"
-              class="link-quiet"
-              >Edit</a
-            >
+            <a href="{{ url_for('edit_article', article_id=a['id']) }}" class="link-quiet">Edit</a>
           </td>
 
           <td class="admin-table-actions">
