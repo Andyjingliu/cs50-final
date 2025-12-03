@@ -1,6 +1,6 @@
-# Jing Liu — CS50 Final Project
+# Jing Liu — InsightPress
 
-InsightPress - A Custom CMS + Bilingual Commentary Website (Flask, SQLite, Markdown)
+A Custom CMS + Bilingual Commentary Website (Flask, SQLite, Markdown)
 
 ## Overview
 
